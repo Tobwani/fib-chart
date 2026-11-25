@@ -67,8 +67,24 @@ main.noside{grid-template-columns:minmax(0,1fr)}main.noside aside{display:none}
 .chartwrap{position:relative;overflow:hidden;min-height:0}
 #chart{position:absolute;left:0;right:0;top:0;bottom:var(--rsiH,0px)}
 #rsi{position:absolute;left:0;right:0;bottom:0;height:var(--rsiH,0px);border-top:.5px solid var(--sep)}
-#rsiLbl{position:absolute;left:12px;bottom:calc(var(--rsiH,0px) - 22px);z-index:6;font-size:11.5px;color:var(--mut);pointer-events:none}
-#rsiLbl b{font-weight:600}
+#ovR{position:absolute;left:0;right:0;bottom:0;pointer-events:none;z-index:5}
+#rsiLbl{position:absolute;left:10px;bottom:calc(var(--rsiH,0px) - 28px)}
+#volLbl{position:absolute;left:62px;top:34px}
+.ilg{z-index:7;display:flex;align-items:center;gap:7px;font-size:11.5px;color:var(--mut);padding:2px 4px 2px 6px;border-radius:7px;min-height:26px;font-variant-numeric:tabular-nums}
+.ilg:hover{background:var(--glass);box-shadow:0 0 0 .5px var(--sep)}
+.ilg b{font-weight:600}.ilg.hid .nm,.ilg.hid b{opacity:.45}
+.ilg .ia{display:none;gap:1px}.ilg:hover .ia{display:flex}
+.ilg button{width:24px;height:24px;border:0;background:none;border-radius:6px;color:var(--mut);display:grid;place-items:center}
+.ilg button:hover{background:var(--fill);color:var(--ink)}.ilg [data-ia=del]:hover{color:var(--dn)}
+.ilg svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(0,0,0,.3);padding:12px}
+.dlg{width:min(420px,100%);max-height:min(640px,calc(100dvh - 24px));display:flex;flex-direction:column;background:var(--card);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.35);border:.5px solid var(--sep);overflow:hidden}
+.dh{display:flex;align-items:center;justify-content:space-between;padding:12px 10px 4px 18px}.dh b{font-size:16px;font-weight:600}
+.dh svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
+.dlg>.seg{margin:6px 14px 2px;display:flex}.dlg>.seg button{flex:1}
+.db{padding:2px 14px 14px;overflow:auto;flex:1}
+.df{display:flex;gap:8px;align-items:center;padding:12px 14px;border-top:.5px solid var(--sep)}.df span{flex:1}
+#rsiLbl:empty,#volLbl:empty{display:none}
 #legend{position:absolute;left:64px;top:13px;z-index:6;font-size:12px;color:var(--mut);pointer-events:none;white-space:nowrap;display:flex;gap:10px;align-items:baseline;font-variant-numeric:tabular-nums}
 #legend .s{color:var(--ink);font-weight:600}
 #legend i{font-style:normal;margin-right:3px}
@@ -106,7 +122,7 @@ main.noside{grid-template-columns:minmax(0,1fr)}main.noside aside{display:none}
 .palette button.on{background:var(--fill);color:var(--ink)}
 .palette small{position:absolute;right:3px;bottom:2px;font-size:8.5px;font-weight:700}
 #clrBtn.arm{background:rgba(229,53,43,.14);color:var(--dn)}
-#hint{position:absolute;left:64px;top:36px;z-index:6;color:var(--mut);font-size:12px;pointer-events:none;white-space:nowrap}
+#hint{position:absolute;left:64px;top:62px;z-index:6;color:var(--mut);font-size:12px;pointer-events:none;white-space:nowrap}
 #hint b{font-weight:500;color:var(--ink)}#hint:empty{display:none}
 
 /* Seitenkarte */
@@ -118,9 +134,10 @@ aside>.seg{margin:12px 12px 4px;display:flex}aside>.seg button{flex:1}
 .gnote{font-size:12px;color:var(--mut);margin:6px 4px;line-height:1.45}
 .gnote a{color:var(--acc);text-decoration:none}
 #wl{list-style:none;margin:0;padding:0}
-#wl li{display:grid;grid-template-columns:minmax(0,1fr) auto 22px;align-items:center;gap:8px;padding:9px 6px 9px 12px;cursor:pointer;position:relative}
-#wl li+li::before{content:"";position:absolute;left:12px;right:0;top:0;border-top:.5px solid var(--sep)}
+#wl li{display:grid;grid-template-columns:30px minmax(0,1fr) auto 22px;align-items:center;gap:8px;padding:9px 6px 9px 12px;cursor:pointer;position:relative}
+#wl li+li::before{content:"";position:absolute;left:50px;right:0;top:0;border-top:.5px solid var(--sep)}
 #wl li:hover{background:var(--fill2)}
+.av{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:-.02em}
 #wl li.on{background:var(--fill)}
 #wl .n b{display:block;font-weight:600;font-size:14px}
 #wl .n span{font-size:12px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
@@ -224,6 +241,8 @@ input[type=range]{accent-color:var(--acc);width:100px}
   #legend.show{opacity:1}
   #legend>span:nth-child(-n+2),#legend>span:last-child{display:none}
   #hint{left:10px;top:10px;right:10px;white-space:normal}
+  #volLbl{left:6px;top:6px}
+  .ilg .ia{display:flex}
   #selbar{top:auto;right:auto;left:50%;transform:translateX(-50%);bottom:calc(var(--rsiH,0px) + var(--axisH,30px) + 14px)}
   #sbName,#selbar .vsep{display:none!important}
   #selbar button{width:40px;height:40px}
@@ -256,12 +275,9 @@ input[type=range]{accent-color:var(--acc);width:100px}
   <div class="lywrap">
     <button class="lybtn" id="indBtn" title="Indikatoren"><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-7 4 4"/></svg><span class="lbl">Indikatoren</span></button>
     <div class="menu r" id="indMenu" hidden>
-      <div class="mh">RSI · Relative Strength Index</div>
-      <label class="opt"><span>Anzeigen</span><input type="checkbox" class="sw" id="rsiOn"></label>
-      <label class="opt"><span>Länge</span><input type="number" class="field sm" id="rsiLen" min="2" max="200"></label>
-      <label class="opt"><span>Überkauft</span><input type="number" class="field sm" id="rsiOb" min="50" max="100"></label>
-      <label class="opt"><span>Überverkauft</span><input type="number" class="field sm" id="rsiOs" min="0" max="50"></label>
-      <label class="opt"><span>Farbe</span><input type="color" id="rsiC"></label>
+      <div class="mh">Indikatoren</div>
+      <button class="mi" data-ind="rsi" type="button">Relative Strength Index (RSI)</button>
+      <button class="mi" data-ind="vol" type="button">Volumen</button>
     </div>
   </div>
   <div class="right">
@@ -292,7 +308,7 @@ input[type=range]{accent-color:var(--acc);width:100px}
 </header>
 <main id="main">
   <section class="card chartwrap" id="wrap">
-    <div id="chart"></div><canvas id="ov"></canvas><div id="rsi"></div><div id="rsiLbl"></div>
+    <div id="chart"></div><canvas id="ov"></canvas><div id="rsi"></div><canvas id="ovR"></canvas><div id="rsiLbl"></div><div id="volLbl"></div>
     <nav class="palette" id="palette">
       <button data-mode="cursor" title="Auswählen & verschieben (V)"><svg viewBox="0 0 24 24"><path d="M6 3.5l12 8-5.6 1.4L9.8 18.5z"/></svg></button>
       <hr>
@@ -325,7 +341,7 @@ input[type=range]{accent-color:var(--acc);width:100px}
     <div class="seg" id="tabs"><button data-tab="watch" class="on">Watchlist</button><button data-tab="fib">Werkzeug</button></div>
     <div id="tab-watch" class="pane">
       <div class="group"><ul id="wl"></ul></div>
-      <form id="addF"><input class="field" type="text" id="addSym" placeholder="z. B. XRPEUR, AMD" autocomplete="off" aria-label="Symbol"><select id="addSrc" aria-label="Quelle"><option value="binance">Krypto</option><option value="td">Aktie</option></select><button class="btn sec" type="submit" aria-label="Hinzufügen">+</button></form>
+      <form id="addF"><input class="field" type="text" id="addSym" placeholder="z. B. XRPEUR, AMD" autocomplete="off" aria-label="Symbol"><select id="addSrc" aria-label="Quelle"><option value="binance">Krypto</option><option value="bnf">Futures</option><option value="td">Aktie</option></select><button class="btn sec" type="submit" aria-label="Hinzufügen">+</button></form>
       <div class="glabel">Aktien-Daten · Twelve Data</div>
       <div class="group" id="keybox"><div class="keyrow"><input class="field" type="password" id="keyIn" placeholder="API-Key einfügen" autocomplete="off" aria-label="API-Key"><button class="btn sec" id="keySave" type="button">Sichern</button></div></div>
       <p class="gnote">Kostenloser Key mit 800 Abfragen pro Tag, Echtzeit für US-Aktien und ETFs. <a href="https://twelvedata.com/register" target="_blank" rel="noopener">Key holen</a>. Kerzen werden während der US-Börsenzeit alle 30 s aktualisiert, außerhalb pausiert, um Abfragen zu sparen.</p>
@@ -380,6 +396,12 @@ input[type=range]{accent-color:var(--acc);width:100px}
     </div>
   </aside>
 </main>
+<div class="modal" id="indDlg" hidden><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+  <div class="dh"><b id="dlgTitle"></b><button class="ibtn" id="dlgX" type="button" aria-label="Schließen"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="seg" id="dlgTabs"></div>
+  <div class="db" id="dlgBody"></div>
+  <div class="df"><button class="lnk" id="dlgDef" type="button">Standard</button><span></span><button class="btn sec" id="dlgCancel" type="button">Abbrechen</button><button class="btn" id="dlgOk" type="button">OK</button></div>
+</div></div>
 <script>
 {
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
@@ -422,15 +444,20 @@ S.watch=S.watch||[
   {src:'td',sym:'AAPL',name:'Apple'},{src:'td',sym:'NVDA',name:'Nvidia'},{src:'td',sym:'TSLA',name:'Tesla'},
   {src:'td',sym:'MSFT',name:'Microsoft'},{src:'td',sym:'SPY',name:'S&P 500 ETF'},{src:'td',sym:'QQQ',name:'Nasdaq 100 ETF'}];
 if(S.magnet==null)S.magnet=1;
+if(!S.metV){const i=S.watch.findIndex(w=>w.sym==='SOLUSDT');const add=[{src:'bnf',sym:'XAUUSDT',name:'Gold'},{src:'bnf',sym:'XAGUSDT',name:'Silber'}].filter(a=>!S.watch.some(w=>w.src===a.src&&w.sym===a.sym));
+  S.watch.splice(i>=0?i+1:S.watch.length,0,...add);S.metV=1}
 if(S.side==null)S.side=true;
 S.last=S.last||{src:'binance',sym:'BTCUSDT',iv:'1h'};
 S.apiKey=S.apiKey||'';
-const RSI_DEF={on:false,len:14,ob:70,os:30,color:'#8c78b8'};
+const RSI_DEF={on:false,hidden:false,len:14,src:'close',ma:'sma',maLen:14,ob:70,os:30,color:'#8c78b8',width:2,maColor:'#c9a227',band:true,grad:true};
+const VOL_DEF={on:false,hidden:false,up:'#30d158',dn:'#ff453a',alpha:.45};
+const normInd=l=>{l.ind=l.ind||{};l.ind.rsi={...RSI_DEF,...(l.ind.rsi||{})};l.ind.vol={...VOL_DEF,...(l.ind.vol||{})}};
 if(!S.layouts){S.layouts=[{id:'l1',name:'Hauptlayout',src:S.last.src,sym:S.last.sym,iv:S.last.iv,ind:{rsi:{...RSI_DEF}},drawings:S.drawings||{}}];S.layoutId='l1';delete S.drawings}
-for(const l of S.layouts){l.ind=l.ind||{};l.ind.rsi={...RSI_DEF,...(l.ind.rsi||{})};l.drawings=l.drawings||{}}
+for(const l of S.layouts){normInd(l);l.drawings=l.drawings||{}}
 const Lay=()=>S.layouts.find(l=>l.id===S.layoutId)||S.layouts[0];
 const DR=()=>Lay().drawings;
 const RS=()=>Lay().ind.rsi;
+const VS=()=>Lay().ind.vol;
 let mq=null;try{mq=matchMedia('(prefers-color-scheme: dark)')}catch(e){}
 S.theme=S.theme||(mq&&mq.matches?'dark':'light');
 document.documentElement.dataset.theme=S.theme;
@@ -476,7 +503,7 @@ $('.title').style.cursor='pointer';$('.title').onclick=()=>{if(mob.matches)openS
 mob.addEventListener('change',()=>{sheetOpen=false;applySide()});
 
 let bars=[],cur={src:'',sym:''},IV=IVS[3],drawings=[],selected=null,hoverD=null,mode='cursor',draft=null,hoverPt=null,drag=null,down=null,blockChart=false;
-let undo=[],gen=0,ws=null,tdws=null,tkws=null,pollT=0,hbT=0,reT=0,prec=2,loadingOld=false,noMoreOld=false,panelType='fib';
+let undo=[],gen=0,ws=null,tdws=null,pollT=0,hbT=0,reT=0,prec=2,loadingOld=false,noMoreOld=false,panelType='fib';
 const Q={};/* Kurse der Watchlist: {p, c (Änderung %), prev} */
 const key=()=>cur.src+':'+cur.sym;
 const digits=p=>p>=1?2:p>=0.01?5:8;
@@ -520,29 +547,30 @@ function ptFrom(x,y){
   return {t:timeOfIdx(li),p,snapped};
 }
 
-/* ---------- Binance ---------- */
-const BN_REST=['https://api.binance.com','https://data-api.binance.vision'];
-const BN_WS=['wss://stream.binance.com:9443','wss://data-stream.binance.vision'];
-async function bnGet(path){
-  let err;
-  for(const h of BN_REST){
-    try{const r=await fetch(h+path);const j=await r.json();
+/* ---------- Binance (Spot + Futures für Gold/Silber) ---------- */
+const isBn=src=>src==='binance'||src==='bnf';
+const BN={binance:{rest:['https://api.binance.com','https://data-api.binance.vision'],ws:['wss://stream.binance.com:9443','wss://data-stream.binance.vision'],p:'/api/v3'},
+          bnf:{rest:['https://fapi.binance.com'],ws:['wss://fstream.binance.com'],p:'/fapi/v1'}};
+async function bnGet(path,src='binance'){
+  const c=BN[src];let err;
+  for(const h of c.rest){
+    try{const r=await fetch(h+c.p+path);const j=await r.json();
       if(j&&j.code&&j.msg){const e=new Error(j.msg==='Invalid symbol.'?'Symbol gibt es bei Binance nicht':j.msg);e.api=1;throw e}
       return j}
     catch(e){err=e;if(e.api)break}
   }
   throw err;
 }
-async function bnKlines(sym,iv,end){
-  const j=await bnGet(`/api/v3/klines?symbol=${encodeURIComponent(sym)}&interval=${iv}&limit=1000${end?'&endTime='+end:''}`);
-  return j.map(k=>({time:k[0]/1000,open:+k[1],high:+k[2],low:+k[3],close:+k[4]}));
+async function bnKlines(sym,iv,end,src=cur.src){
+  const j=await bnGet(`/klines?symbol=${encodeURIComponent(sym)}&interval=${iv}&limit=1000${end?'&endTime='+end:''}`,src);
+  return j.map(k=>({time:k[0]/1000,open:+k[1],high:+k[2],low:+k[3],close:+k[4],v:+k[5]}));
 }
 function bnWS(g,hi,re){
-  const s=new WebSocket(`${BN_WS[hi]}/ws/${cur.sym.toLowerCase()}@kline_${IV.b}`);ws=s;let opened=false;
+  const c=BN[cur.src],s=new WebSocket(`${c.ws[hi%c.ws.length]}/ws/${cur.sym.toLowerCase()}@kline_${IV.b}`);ws=s;let opened=false;
   s.onopen=()=>{opened=true;setStatus('live','Live');
     if(re)bnKlines(cur.sym,IV.b).then(a=>{if(g===gen&&bars.length){const lt=bars[bars.length-1].time;a.filter(b=>b.time>=lt).forEach(applyBar)}}).catch(()=>{})};
-  s.onmessage=e=>{const k=JSON.parse(e.data).k;if(k&&g===gen)applyBar({time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c})};
-  s.onclose=()=>{if(g!==gen)return;setStatus('warn','Verbinde neu…');reT=setTimeout(()=>{if(g===gen)bnWS(g,opened?hi:(hi+1)%2,true)},2000)};
+  s.onmessage=e=>{const k=JSON.parse(e.data).k;if(k&&g===gen)applyBar({time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c,v:+k.v})};
+  s.onclose=()=>{if(g!==gen)return;setStatus('warn','Verbinde neu…');reT=setTimeout(()=>{if(g===gen)bnWS(g,opened?hi:hi+1,true)},2000)};
 }
 async function loadOld(){
   loadingOld=true;const g=gen;
@@ -553,23 +581,26 @@ async function loadOld(){
     if(r)ts.setVisibleLogicalRange({from:r.from+o.length,to:r.to+o.length});
   }catch(e){}finally{loadingOld=false}
 }
-ts.subscribeVisibleLogicalRangeChange(r=>{if(r&&cur.src==='binance'&&bars.length&&!loadingOld&&!noMoreOld&&r.from<25)loadOld()});
-/* Watchlist-Ticker (24 h) für alle Krypto-Symbole */
+ts.subscribeVisibleLogicalRangeChange(r=>{if(r&&isBn(cur.src)&&bars.length&&!loadingOld&&!noMoreOld&&r.from<25)loadOld()});
+/* Watchlist-Ticker (24 h) */
 async function bnTickers(){
-  const syms=S.watch.filter(w=>w.src==='binance').map(w=>w.sym);if(!syms.length)return;
-  const put=t=>{Q['binance:'+t.symbol]={p:+t.lastPrice,c:+t.priceChangePercent};updRow('binance:'+t.symbol)};
-  try{(await bnGet(`/api/v3/ticker/24hr?symbols=${encodeURIComponent(JSON.stringify(syms))}`)).forEach(put)}
-  catch(e){await Promise.allSettled(syms.map(s=>bnGet(`/api/v3/ticker/24hr?symbol=${s}`).then(put)))}
+  const put=src=>t=>{const k=src+':'+t.symbol;Q[k]={p:+t.lastPrice,c:+t.priceChangePercent};updRow(k)};
+  const spot=S.watch.filter(w=>w.src==='binance').map(w=>w.sym),fut=S.watch.filter(w=>w.src==='bnf').map(w=>w.sym);
+  if(spot.length){try{(await bnGet(`/ticker/24hr?symbols=${encodeURIComponent(JSON.stringify(spot))}`)).forEach(put('binance'))}
+    catch(e){await Promise.allSettled(spot.map(x=>bnGet(`/ticker/24hr?symbol=${x}`).then(put('binance'))))}}
+  await Promise.allSettled(fut.map(x=>bnGet(`/ticker/24hr?symbol=${x}`,'bnf').then(put('bnf'))));
   header();
 }
-function tickerWS(hi=0){
-  if(tkws){tkws.onclose=null;try{tkws.close()}catch(e){}}
-  const syms=S.watch.filter(w=>w.src==='binance').map(w=>w.sym.toLowerCase()+'@miniTicker');if(!syms.length)return;
-  const s=new WebSocket(`${BN_WS[hi]}/stream?streams=${syms.join('/')}`);tkws=s;let opened=false;
+const tkw={};
+function tickerWS(){for(const src of ['binance','bnf'])tickerSock(src,0)}
+function tickerSock(src,hi){
+  if(tkw[src]){tkw[src].onclose=null;try{tkw[src].close()}catch(e){}tkw[src]=null}
+  const syms=S.watch.filter(w=>w.src===src).map(w=>w.sym.toLowerCase()+'@miniTicker');if(!syms.length)return;
+  const c=BN[src],s=new WebSocket(`${c.ws[hi%c.ws.length]}/stream?streams=${syms.join('/')}`);tkw[src]=s;let opened=false;
   s.onopen=()=>opened=true;
-  s.onmessage=e=>{const d=JSON.parse(e.data).data;if(!d)return;const k='binance:'+d.s,c=+d.c,o=+d.o;
-    Q[k]={p:c,c:(c-o)/o*100};updRow(k);if(k===key())header()};
-  s.onclose=()=>setTimeout(()=>{if(tkws===s)tickerWS(opened?hi:(hi+1)%2)},3000);
+  s.onmessage=e=>{const d=JSON.parse(e.data).data;if(!d)return;const k=src+':'+d.s,cl=+d.c,o=+d.o;
+    Q[k]={p:cl,c:(cl-o)/o*100};updRow(k);if(k===key())header()};
+  s.onclose=()=>setTimeout(()=>{if(tkw[src]===s)tickerSock(src,opened?hi:hi+1)},3000);
 }
 
 /* ---------- Twelve Data ---------- */
@@ -581,7 +612,7 @@ async function tdGet(path){
 async function tdSeries(sym,iv,n){
   const j=await tdGet(`/time_series?symbol=${encodeURIComponent(sym)}&interval=${iv}&outputsize=${n}&timezone=UTC&order=asc`);
   if(!Array.isArray(j.values))throw new Error('Keine Kursdaten');
-  return j.values.map(v=>({time:tdTime(v.datetime),open:+v.open,high:+v.high,low:+v.low,close:+v.close})).sort((a,b)=>a.time-b.time);
+  return j.values.map(v=>({time:tdTime(v.datetime),open:+v.open,high:+v.high,low:+v.low,close:+v.close,v:+v.volume||0})).sort((a,b)=>a.time-b.time);
 }
 async function tdQuote(sym,g){
   try{const j=await tdGet(`/quote?symbol=${encodeURIComponent(sym)}`);if(g!==gen)return;
@@ -621,82 +652,184 @@ function setPrec(){prec=digits(bars[bars.length-1].close);series.applyOptions({p
 async function load(src,sym,ivk){
   const g=++gen;stopFeeds();cur={src,sym};IV=IVS.find(i=>i.k===ivk)||IVS[3];
   S.last={src,sym,iv:IV.k};Object.assign(Lay(),{src,sym,iv:IV.k});save();
-  chart.priceScale('right').applyOptions({autoScale:true});rsiChart.priceScale('right').applyOptions({autoScale:true});
+  pzoom=1;chart.priceScale('right').applyOptions({autoScale:true});rsiChart.priceScale('right').applyOptions({autoScale:true});
   bars=[];series.setData([]);rsiSeries.setData([]);legend(-1);selected=null;draft=null;drag=null;undo=[];noMoreOld=false;updateSelbar();
   drawings=DR()[key()]||(DR()[key()]=[]);
   const w=S.watch.find(x=>x.src===src&&x.sym===sym);
-  $('#hSym').textContent=sym;$('#hName').textContent=(w&&w.name)||(src==='binance'?'Krypto · Binance':'Aktie');
+  $('#hSym').textContent=sym;$('#hName').textContent=(w&&w.name)||(src==='binance'?'Krypto · Binance':src==='bnf'?'Futures · Binance':'Aktie');
   renderIvs();renderWatch();renderPanel();header();hint();
   if(src==='td'&&!S.apiKey){setStatus('err','API-Key fehlt (Watchlist unten)');showTab('watch');return}
   setStatus('warn','Lade…');
   try{
-    const data=src==='binance'?await bnKlines(sym,IV.b):await tdSeries(sym,IV.t,1500);
+    const data=isBn(src)?await bnKlines(sym,IV.b,0,src):await tdSeries(sym,IV.t,1500);
     if(g!==gen)return;if(!data.length)throw new Error('Keine Daten');
     bars=data;setPrec();series.setData(bars);rsiFull();legend(-1);
     chart.priceScale('right').applyOptions({autoScale:true});
     {const nb=mob.matches?60:150,ro=mob.matches?10:28;ts.setVisibleLogicalRange({from:Math.max(0,bars.length-nb),to:bars.length+ro})}
     header();
-    if(src==='binance')bnWS(g,0,false);else{tdQuote(sym,g);tdLive(g)}
+    if(isBn(src))bnWS(g,0,false);else{tdQuote(sym,g);tdLive(g)}
   }catch(e){if(g===gen)setStatus('err',e.message||'Fehler beim Laden')}
 }
 function header(){
   const n=bars.length,q=Q[key()];
   $('#hPrice').textContent=n?fmtP(bars[n-1].close):'–';
   const c=$('#hChg');
-  if(q&&isFinite(q.c)){c.textContent=fmtPct(q.c);c.className='pill num '+(q.c>=0?'up':'dn');c.title=cur.src==='binance'?'Änderung 24 h':'Änderung heute'}
+  if(q&&isFinite(q.c)){c.textContent=fmtPct(q.c);c.className='pill num '+(q.c>=0?'up':'dn');c.title=isBn(cur.src)?'Änderung 24 h':'Änderung heute'}
   else{c.textContent='';c.className='pill num';c.style.display='none';return}
   c.style.display='';
 }
 
-/* ---------- RSI ---------- */
+/* ---------- Indikatoren: RSI & Volumen ---------- */
 const rsiChart=LWC.createChart($('#rsi'),{autoSize:true,layout:{fontFamily:FONT,fontSize:11,attributionLogo:false},crosshair:{mode:0},
   rightPriceScale:{borderVisible:false,minimumWidth:78,scaleMargins:{top:.12,bottom:.12}},
   timeScale:{borderVisible:false,timeVisible:true,secondsVisible:false,rightOffset:28,tickMarkFormatter:chart.options().timeScale.tickMarkFormatter},
   localization:chart.options().localization});
-const rsiSeries=rsiChart.addLineSeries({lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerRadius:3,
-  priceFormat:{type:'price',precision:2,minMove:.01},autoscaleInfoProvider:()=>({priceRange:{minValue:0,maxValue:100}})});
-let obLine=null,osLine=null,midLine=null,rsiMap=new Map(),xsync=false,rsync=false;
+const R100=()=>({priceRange:{minValue:0,maxValue:100}});
+const rsiSeries=rsiChart.addLineSeries({lineWidth:2,priceLineVisible:false,lastValueVisible:true,crosshairMarkerRadius:3,priceFormat:{type:'price',precision:2,minMove:.01},autoscaleInfoProvider:R100});
+const maSeries=rsiChart.addLineSeries({lineWidth:1,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false,priceFormat:{type:'price',precision:2,minMove:.01},autoscaleInfoProvider:R100});
+const volSeries=chart.addHistogramSeries({priceScaleId:'vol',priceFormat:{type:'volume'},lastValueVisible:false,priceLineVisible:false});
+chart.priceScale('vol').applyOptions({scaleMargins:{top:.82,bottom:0},visible:false});
+let obLine=null,osLine=null,midLine=null,rsiMap=new Map(),maMap=new Map(),rsiArr=[],xsync=false,rsync=false;
+const srcVal=(b,s)=>s==='open'?b.open:s==='high'?b.high:s==='low'?b.low:s==='hl2'?(b.high+b.low)/2:s==='hlc3'?(b.high+b.low+b.close)/3:s==='ohlc4'?(b.open+b.high+b.low+b.close)/4:b.close;
 function rsiCalc(){
-  const len=Math.max(2,Math.round(RS().len)||14),out=[];let ag=0,al=0;rsiMap=new Map();
-  for(let i=0;i<bars.length;i++){
-    const b=bars[i];if(i===0){out.push({time:b.time});continue}
-    const ch=b.close-bars[i-1].close,g=Math.max(ch,0),l=Math.max(-ch,0);let v=null;
+  const r=RS(),len=Math.max(2,Math.round(r.len)||14),n=bars.length;let ag=0,al=0;
+  rsiArr=new Array(n).fill(null);rsiMap=new Map();maMap=new Map();
+  for(let i=1;i<n;i++){
+    const ch=srcVal(bars[i],r.src)-srcVal(bars[i-1],r.src),g=Math.max(ch,0),l=Math.max(-ch,0);let v=null;
     if(i<=len){ag+=g;al+=l;if(i===len){ag/=len;al/=len;v=al===0?100:100-100/(1+ag/al)}}
     else{ag=(ag*(len-1)+g)/len;al=(al*(len-1)+l)/len;v=al===0?100:100-100/(1+ag/al)}
-    if(v==null)out.push({time:b.time});else{out.push({time:b.time,value:v});rsiMap.set(b.time,v)}
+    if(v!=null){rsiArr[i]=v;rsiMap.set(bars[i].time,v)}
   }
-  return out;
+  const ma=new Array(n).fill(null),m=Math.max(1,Math.round(r.maLen)||14);
+  if(r.ma!=='none'){let buf=[],sum=0,e=null;
+    for(let i=0;i<n;i++){const v=rsiArr[i];if(v==null)continue;buf.push(v);sum+=v;if(buf.length>m)sum-=buf.shift();
+      if(buf.length<m)continue;
+      if(r.ma==='ema'){e=e==null?sum/m:e+(2/(m+1))*(v-e);ma[i]=e}else ma[i]=sum/m;
+      maMap.set(bars[i].time,ma[i])}}
+  return {d:bars.map((b,i)=>rsiArr[i]==null?{time:b.time}:{time:b.time,value:rsiArr[i]}),m:bars.map((b,i)=>ma[i]==null?{time:b.time}:{time:b.time,value:ma[i]})};
 }
-function rsiLabel(v){const r=RS();$('#rsiLbl').innerHTML=r.on?`RSI ${esc(r.len)} <b style="color:${esc(r.color)}">${v==null?'–':esc(fmtN(v,2))}</b>`:''}
-function rsiFull(){if(!RS().on||!bars.length)return;const d=rsiCalc();rsiSeries.setData(d);const l=d[d.length-1];rsiLabel(l&&l.value);
+const EYE='<svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6.5 9.5-6.5 9.5 6.5 9.5 6.5-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg>';
+const EYEOFF='<svg viewBox="0 0 24 24"><path d="M4 4l16 16M9.9 5.7A9.6 9.6 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a16 16 0 0 1-2.9 3.6M6.6 6.9C3.9 8.7 2.5 12 2.5 12s3.5 6.5 9.5 6.5c1.6 0 3-.4 4.3-1"/></svg>';
+const GEAR='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>';
+const TRASH='<svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>';
+const indActs=(id,hidden)=>`<span class="ia"><button data-ia="eye" data-ind="${id}" title="${hidden?'Einblenden':'Ausblenden'}">${hidden?EYEOFF:EYE}</button><button data-ia="set" data-ind="${id}" title="Einstellungen">${GEAR}</button><button data-ia="del" data-ind="${id}" title="Entfernen">${TRASH}</button></span>`;
+function rsiLegend(){const r=RS(),el=$('#rsiLbl');if(!r.on){el.innerHTML='';return}
+  el.className='ilg'+(r.hidden?' hid':'');el.innerHTML=`<span class="nm">RSI ${esc(r.len)} ${esc(r.src)}</span><b class="v1" style="color:${esc(r.color)}"></b><b class="v2" style="color:${esc(r.maColor)}"></b>${indActs('rsi',r.hidden)}`}
+function rsiLabel(t){const r=RS();if(!r.on)return;const v1=$('#rsiLbl .v1'),v2=$('#rsiLbl .v2');if(!v1)return;
+  if(t==null&&bars.length)t=bars[bars.length-1].time;const a=rsiMap.get(t),b=maMap.get(t);
+  v1.textContent=a==null?'–':fmtN(a,2);v2.textContent=r.ma==='none'||b==null?'':fmtN(b,2)}
+function rsiFull(){volFull();if(!RS().on||!bars.length)return;const {d,m}=rsiCalc();rsiSeries.setData(d);maSeries.setData(RS().ma==='none'?[]:m);rsiLabel();
   const r=ts.getVisibleLogicalRange();if(r){rsync=true;rsiChart.timeScale().setVisibleLogicalRange(r);rsync=false}}
-function rsiTick(){if(!RS().on||!bars.length)return;const d=rsiCalc(),l=d[d.length-1];if(l)rsiSeries.update(l);if(!xsync)rsiLabel(l&&l.value)}
+function rsiTick(){volTick();if(!RS().on||!bars.length)return;const {d,m}=rsiCalc(),l=d[d.length-1],lm=m[m.length-1];if(l)rsiSeries.update(l);if(lm&&RS().ma!=='none')maSeries.update(lm);if(!xsync)rsiLabel()}
 function applyRsi(){
-  const r=RS(),on=r.on;$('#wrap').style.setProperty('--rsiH',on?(mob.matches?'130px':'170px'):'0px');$('#wrap').style.setProperty('--axisH',on?'4px':'30px');$('#rsi').hidden=!on;
+  const r=RS(),on=r.on;$('#wrap').style.setProperty('--rsiH',on?(mob.matches?'130px':'170px'):'0px');$('#wrap').style.setProperty('--axisH',on?'4px':'30px');$('#rsi').hidden=!on;$('#ovR').hidden=!on;
   chart.applyOptions({timeScale:{visible:!on}});
-  rsiSeries.applyOptions({color:r.color});
+  rsiSeries.applyOptions({color:r.color,lineWidth:+r.width||2,visible:!r.hidden});
+  maSeries.applyOptions({color:r.maColor,visible:!r.hidden&&r.ma!=='none'});
   for(const pl of [obLine,osLine,midLine])if(pl)rsiSeries.removePriceLine(pl);
   obLine=rsiSeries.createPriceLine({price:+r.ob,color:T.cross,lineWidth:1,lineStyle:2,axisLabelVisible:false});
   osLine=rsiSeries.createPriceLine({price:+r.os,color:T.cross,lineWidth:1,lineStyle:2,axisLabelVisible:false});
   midLine=rsiSeries.createPriceLine({price:50,color:T.grid,lineWidth:1,lineStyle:1,axisLabelVisible:false});
-  $('#rsiOn').checked=on;$('#rsiLen').value=r.len;$('#rsiOb').value=r.ob;$('#rsiOs').value=r.os;$('#rsiC').value=r.color;
-  if(on)rsiFull();else{rsiSeries.setData([]);rsiLabel()}
-  $('#indBtn').classList.toggle('on',on);
+  rsiLegend();
+  if(on)rsiFull();else{rsiSeries.setData([]);maSeries.setData([])}
+  applyVol();
 }
+/* Volumen */
+const fmtVol=v=>v>=1e9?fmtN(v/1e9,2)+' Mrd':v>=1e6?fmtN(v/1e6,2)+' M':v>=1e3?fmtN(v/1e3,2)+' K':fmtN(v,v<10?2:0);
+const volPt=(b,v)=>({time:b.time,value:b.v||0,color:hexA(b.close>=b.open?v.up:v.dn,+v.alpha||.45)});
+function volFull(){const v=VS();if(!v.on||v.hidden||!bars.length){volSeries.setData([]);return}volSeries.setData(bars.map(b=>volPt(b,v)))}
+function volTick(){const v=VS();if(!v.on||v.hidden||!bars.length)return;volSeries.update(volPt(bars[bars.length-1],v));if(!legendHover)volLabel()}
+function volLabel(i){const v=VS(),el=$('#volLbl .v1');if(!v.on||!el||!bars.length)return;if(i==null||i<0)i=bars.length-1;el.textContent=fmtVol(bars[i].v||0)}
+function applyVol(){const v=VS(),el=$('#volLbl');
+  if(!v.on){el.innerHTML='';el.className='';volSeries.setData([])}
+  else{el.className='ilg'+(v.hidden?' hid':'');el.innerHTML=`<span class="nm">Vol</span><b class="v1"></b>${indActs('vol',v.hidden)}`;volFull();volLabel()}
+  $$('#indMenu [data-ind]').forEach(b=>b.classList.toggle('on',!!(b.dataset.ind==='rsi'?RS().on:VS().on)));
+  $('#indBtn').classList.toggle('on',RS().on||v.on);
+}
+/* RSI-Overlay: Band + Verlauf */
+const ovR=$('#ovR'),cr=ovR.getContext('2d');let WR=0,HR2=0;
+const roR=new ResizeObserver(()=>{const r=$('#rsi').getBoundingClientRect();WR=r.width;HR2=r.height;ovR.width=Math.round(WR*dpr);ovR.height=Math.round(HR2*dpr);ovR.style.width=WR+'px';ovR.style.height=HR2+'px'});roR.observe($('#rsi'));
+function drawRsi(){
+  cr.setTransform(dpr,0,0,dpr,0,0);cr.clearRect(0,0,WR,HR2);
+  const r=RS();if(!r.on||r.hidden||!bars.length||!rsiArr.length)return;
+  const w=WR-rsiChart.priceScale('right').width(),h=HR2-rsiChart.timeScale().height();
+  const yOb=rsiSeries.priceToCoordinate(+r.ob),yOs=rsiSeries.priceToCoordinate(+r.os);if(yOb==null||yOs==null)return;
+  cr.save();cr.beginPath();cr.rect(0,0,w,h);cr.clip();
+  if(r.band){cr.fillStyle=hexA(r.color,.08);cr.fillRect(0,Math.min(yOb,yOs),w,Math.abs(yOs-yOb))}
+  const vr=rsiChart.timeScale().getVisibleLogicalRange();
+  if(r.grad&&vr){
+    const i0=Math.max(1,Math.floor(vr.from)-1),i1=Math.min(rsiArr.length-1,Math.ceil(vr.to)+1),pts=[],rts=rsiChart.timeScale();
+    for(let i=i0;i<=i1;i++){const v=rsiArr[i];if(v==null)continue;const x=rts.logicalToCoordinate(i),y=rsiSeries.priceToCoordinate(v);if(x!=null&&y!=null)pts.push({x,y})}
+    if(pts.length>1){
+      const zone=(yl,top,col)=>{cr.save();cr.beginPath();top?cr.rect(0,0,w,yl):cr.rect(0,yl,w,h-yl);cr.clip();
+        const ye=rsiSeries.priceToCoordinate(top?100:0)??(top?0:h),g=cr.createLinearGradient(0,ye,0,yl);g.addColorStop(0,hexA(col,.55));g.addColorStop(1,hexA(col,.04));
+        cr.beginPath();cr.moveTo(pts[0].x,yl);pts.forEach(p=>cr.lineTo(p.x,p.y));cr.lineTo(pts[pts.length-1].x,yl);cr.closePath();cr.fillStyle=g;cr.fill();cr.restore()};
+      zone(yOb,true,T.up);zone(yOs,false,T.dn);
+    }
+  }
+  cr.restore();
+}
+/* Synchronisierung Chart <-> RSI */
 ts.subscribeVisibleLogicalRangeChange(r=>{if(rsync||!r||!RS().on)return;rsync=true;rsiChart.timeScale().setVisibleLogicalRange(r);rsync=false});
 rsiChart.timeScale().subscribeVisibleLogicalRangeChange(r=>{if(rsync||!r)return;rsync=true;ts.setVisibleLogicalRange(r);rsync=false});
 chart.subscribeCrosshairMove(p=>{if(xsync||!RS().on)return;xsync=true;
-  if(p.time!=null&&rsiMap.has(p.time)){const v=rsiMap.get(p.time);rsiChart.setCrosshairPosition(v,p.time,rsiSeries);rsiLabel(v)}
-  else{rsiChart.clearCrosshairPosition();const l=bars.length&&rsiMap.get(bars[bars.length-1].time);rsiLabel(l)}xsync=false});
+  if(p.time!=null&&rsiMap.has(p.time)){rsiChart.setCrosshairPosition(rsiMap.get(p.time),p.time,rsiSeries);rsiLabel(p.time)}
+  else{rsiChart.clearCrosshairPosition();rsiLabel()}xsync=false});
 rsiChart.subscribeCrosshairMove(p=>{if(xsync)return;xsync=true;
-  if(p.time!=null){const b=bars.find(x=>x.time===p.time);if(b)chart.setCrosshairPosition(b.close,p.time,series);const li=barIdx(p.time);legendHover=li>=0;legend(li);if(rsiMap.has(p.time))rsiLabel(rsiMap.get(p.time))}
-  else{chart.clearCrosshairPosition();legendHover=false;legend(-1)}xsync=false});
-const rsiSet=(id,f,ev='change')=>$(id).addEventListener(ev,e=>{f(RS(),e.target);save();applyRsi()});
-rsiSet('#rsiOn',(r,el)=>r.on=el.checked);
-rsiSet('#rsiLen',(r,el)=>{const v=Math.round(+el.value);if(v>=2&&v<=200)r.len=v});
-rsiSet('#rsiOb',(r,el)=>{const v=+el.value;if(v>50&&v<=100)r.ob=v});
-rsiSet('#rsiOs',(r,el)=>{const v=+el.value;if(v>=0&&v<50)r.os=v});
-rsiSet('#rsiC',(r,el)=>r.color=el.value,'input');
+  if(p.time!=null){const b=bars.find(x=>x.time===p.time);if(b)chart.setCrosshairPosition(b.close,p.time,series);const li=barIdx(p.time);legendHover=li>=0;legend(li);rsiLabel(p.time)}
+  else{chart.clearCrosshairPosition();legendHover=false;legend(-1);rsiLabel()}xsync=false});
+
+/* Indikator-Menü (nur Hinzufügen) + Legenden-Buttons */
+$('#indMenu').addEventListener('click',e=>{const b=e.target.closest('[data-ind]');if(!b)return;const o=b.dataset.ind==='rsi'?RS():VS();
+  o.on=!o.on;o.hidden=false;save();applyRsi();closeMenus()});
+document.addEventListener('click',e=>{const b=e.target.closest('.ilg [data-ia]');if(!b)return;e.stopPropagation();
+  const id=b.dataset.ind,o=id==='rsi'?RS():VS(),a=b.dataset.ia;
+  if(a==='eye'){o.hidden=!o.hidden;save();applyRsi()}else if(a==='del'){o.on=false;save();applyRsi()}else if(a==='set')openDlg(id)});
+
+/* Einstellungs-Dialog */
+const SRC_OPTS=[['close','Close'],['open','Open'],['high','High'],['low','Low'],['hl2','HL2'],['hlc3','HLC3'],['ohlc4','OHLC4']];
+const IND={
+  rsi:{name:'Relative Strength Index',get:()=>RS(),def:RSI_DEF,tabs:{
+    in:[{h:'RSI'},{k:'len',l:'Länge',t:'num',min:2,max:200},{k:'src',l:'Quelle',t:'sel',o:SRC_OPTS},{h:'Glättung'},{k:'ma',l:'Typ',t:'sel',o:[['none','Keine'],['sma','SMA'],['ema','EMA']]},{k:'maLen',l:'Länge',t:'num',min:1,max:200}],
+    st:[{h:'Linien'},{k:'color',l:'RSI',t:'col'},{k:'width',l:'Stärke',t:'sel',o:[[1,'1 px'],[2,'2 px'],[3,'3 px']]},{k:'maColor',l:'Glättung',t:'col'},
+        {h:'Zonen'},{k:'ob',l:'Überkauft',t:'num',min:50,max:100},{k:'os',l:'Überverkauft',t:'num',min:0,max:50},{k:'band',l:'Hintergrund-Band',t:'sw'},{k:'grad',l:'Verlauf über/unter den Zonen',t:'sw'}]}},
+  vol:{name:'Volumen',get:()=>VS(),def:VOL_DEF,tabs:{st:[{h:'Farben'},{k:'up',l:'Steigende Kerze',t:'col'},{k:'dn',l:'Fallende Kerze',t:'col'},{k:'alpha',l:'Deckkraft',t:'rng',min:.1,max:1,step:.05}]}}
+};
+const TABN={in:'Eingaben',st:'Stil'};let dlg=null;
+function openDlg(id){const I=IND[id];dlg={id,backup:clone(I.get()),tab:Object.keys(I.tabs)[0]};renderDlg();$('#indDlg').hidden=false;closeMenus()}
+function renderDlg(){
+  const I=IND[dlg.id],o=I.get(),tabs=Object.keys(I.tabs);
+  $('#dlgTitle').textContent=I.name;
+  $('#dlgTabs').style.display=tabs.length>1?'flex':'none';
+  $('#dlgTabs').innerHTML=tabs.map(t=>`<button data-dt="${t}" class="${t===dlg.tab?'on':''}" type="button">${TABN[t]}</button>`).join('');
+  let html='',open=false;
+  for(const f of I.tabs[dlg.tab]){
+    if(f.h){if(open)html+='</div>';html+=`<div class="glabel">${esc(f.h)}</div><div class="group">`;open=true;continue}
+    const v=o[f.k];let c='';
+    if(f.t==='num')c=`<input type="number" class="field sm" data-k="${f.k}" min="${f.min}" max="${f.max}" value="${esc(v)}">`;
+    else if(f.t==='sel')c=`<select data-k="${f.k}">${f.o.map(([val,lab])=>`<option value="${esc(val)}" ${String(val)===String(v)?'selected':''}>${esc(lab)}</option>`).join('')}</select>`;
+    else if(f.t==='col')c=`<input type="color" data-k="${f.k}" value="${esc(v)}">`;
+    else if(f.t==='sw')c=`<input type="checkbox" class="sw" data-k="${f.k}" ${v?'checked':''}>`;
+    else if(f.t==='rng')c=`<input type="range" data-k="${f.k}" min="${f.min}" max="${f.max}" step="${f.step}" value="${esc(v)}">`;
+    html+=`<label class="opt"><span>${esc(f.l)}</span>${c}</label>`;
+  }
+  if(open)html+='</div>';
+  $('#dlgBody').innerHTML=html;
+}
+function dlgField(k){const I=IND[dlg.id];for(const t in I.tabs)for(const f of I.tabs[t])if(f.k===k)return f}
+$('#dlgBody').addEventListener('input',e=>{const el=e.target,k=el.dataset.k;if(!k||!dlg)return;const f=dlgField(k),o=IND[dlg.id].get();
+  if(f.t==='num'){const v=+el.value;if(!isFinite(v)||v<f.min||v>f.max)return;o[k]=v}
+  else if(f.t==='sel')o[k]=typeof IND[dlg.id].def[k]==='number'?+el.value:el.value;
+  else if(f.t==='sw')o[k]=el.checked;else if(f.t==='rng')o[k]=+el.value;else o[k]=el.value;
+  applyRsi()});
+$('#dlgTabs').onclick=e=>{const b=e.target.closest('[data-dt]');if(b){dlg.tab=b.dataset.dt;renderDlg()}};
+function closeDlg(ok){if(!dlg)return;const o=IND[dlg.id].get();
+  if(!ok){for(const k of Object.keys(o))delete o[k];Object.assign(o,dlg.backup);applyRsi()}else save();
+  dlg=null;$('#indDlg').hidden=true}
+$('#dlgOk').onclick=()=>closeDlg(true);$('#dlgCancel').onclick=$('#dlgX').onclick=()=>closeDlg(false);
+$('#indDlg').addEventListener('pointerdown',e=>{if(e.target.id==='indDlg')closeDlg(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&dlg)closeDlg(false)});
+$('#dlgDef').onclick=()=>{const I=IND[dlg.id],o=I.get(),keep={on:o.on,hidden:o.hidden};Object.assign(o,clone(I.def),keep);applyRsi();renderDlg()};
 
 /* ---------- Legende (OHLC) ---------- */
 let legendHover=false;
@@ -709,6 +842,7 @@ function legend(i){
     `<span><i>O</i><span class="${cl}">${f(b.open)}</span></span><span><i>H</i><span class="${cl}">${f(b.high)}</span></span>`+
     `<span><i>L</i><span class="${cl}">${f(b.low)}</span></span><span><i>C</i><span class="${cl}">${f(b.close)}</span></span>`+
     `<span class="${ch>=0?'up':'dn'}">${ch>=0?'+':'−'}${f(Math.abs(ch))} (${esc(fmtPct(pct))})</span>`;
+  volLabel(i);
 }
 chart.subscribeCrosshairMove(p=>{const i=barIdx(p.time);legendHover=i>=0;legend(i);$('#legend').classList.toggle('show',legendHover)});
 
@@ -759,7 +893,7 @@ const ptsXY=d=>{const p=d.pts.map(q=>({x:xOf(q.t),y:yOf(q.p)}));return p.some(v=
 function geo(d,P){
   const pts=ptsXY(d);if(!pts)return null;
   const st=d.style,[A,B,Cc]=d.pts,anchor=d.type==='fib'?1:2;
-  const x1=pts[anchor].x,endX=ts.logicalToCoordinate(bars.length+1);
+  const x1=pts[anchor].x,endX=ts.logicalToCoordinate(bars.length);
   const x2=st.extR?P.w:Math.max(endX==null?x1:endX,x1+130);
   const lines=st.levels.filter(l=>l.on&&isFinite(l.v)).map(l=>{
     const p=d.type==='fib'?(st.reverse?A.p+(B.p-A.p)*l.v:B.p+(A.p-B.p)*l.v):Cc.p+(st.reverse?-1:1)*(B.p-A.p)*l.v;
@@ -855,7 +989,7 @@ function draw(){
   ctx.restore();
   axisLabel(P);
 }
-(function frame(){draw();requestAnimationFrame(frame)})();
+(function frame(){draw();drawRsi();requestAnimationFrame(frame)})();
 
 /* ---------- Maus ---------- */
 function segDist(px,py,a,b){const dx=b.x-a.x,dy=b.y-a.y,l=dx*dx+dy*dy;let t=l?((px-a.x)*dx+(py-a.y)*dy)/l:0;t=Math.max(0,Math.min(1,t));return Math.hypot(px-(a.x+t*dx),py-(a.y+t*dy))}
@@ -880,9 +1014,15 @@ function hitTest(x,y){
   return null;
 }
 const wrap=$('#wrap');
+let pzoom=1;
+const zoomProv=o=>{const r=o();if(!r||pzoom===1)return r;const a=r.priceRange.minValue,b=r.priceRange.maxValue,c=(a+b)/2,h=(b-a)/2*pzoom;return {priceRange:{minValue:c-h,maxValue:c+h},margins:r.margins}};
+series.applyOptions({autoscaleInfoProvider:zoomProv});
+wrap.addEventListener('wheel',e=>{const p=rel(e),P=pane();if(p.x<=P.w||p.y<0||p.y>P.h)return;e.preventDefault();e.stopPropagation();
+  pzoom=Math.min(40,Math.max(.05,pzoom*(e.deltaY>0?1.12:1/1.12)));chart.priceScale('right').applyOptions({autoScale:true});series.applyOptions({autoscaleInfoProvider:zoomProv})},{capture:true,passive:false});
+wrap.addEventListener('dblclick',e=>{const p=rel(e),P=pane();if(p.x>P.w&&p.y<=P.h){pzoom=1;series.applyOptions({autoscaleInfoProvider:zoomProv})}},true);
 const rel=e=>{const r=$('#chart').getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}};
 const inPane=p=>{const P=pane();return p.x>=0&&p.y>=0&&p.x<=P.w&&p.y<=P.h};
-const onUI=e=>e.target.closest&&e.target.closest('.palette,#selbar,#fab,.menu');
+const onUI=e=>e.target.closest&&e.target.closest('.palette,#selbar,#fab,.menu,.ilg');
 wrap.addEventListener('pointerdown',e=>{
   HR=e.pointerType==='touch'?2.2:1;
   if(e.button!==0||onUI(e))return;const p=rel(e);if(!inPane(p))return;down=p;
@@ -980,9 +1120,15 @@ $('#sbLbl').onclick=()=>{if(!selected||!isFib(selected.type))return;const st=sel
 function renderIvs(){$('#ivs').innerHTML=IVS.map(i=>`<button data-iv="${i.k}" class="${i.k===IV.k?'on':''}">${i.k}</button>`).join('')}
 $('#ivs').onclick=e=>{const b=e.target.closest('[data-iv]');if(b&&b.dataset.iv!==IV.k)load(cur.src,cur.sym,b.dataset.iv)};
 function rowVals(k){const q=Q[k];if(!q||!isFinite(q.p))return ['–',''];return [fmtN(q.p,digits(q.p)),isFinite(q.c)?q.c:'']}
+const AVC={BTC:'#f7931a',ETH:'#627eea',SOL:'#8c5bf5',XAU:'#c9a227',XAG:'#9aa0a6',BNB:'#d9a514',XRP:'#3a3f44',DOGE:'#c2a633',ADA:'#2a71d0',AAPL:'#555555',NVDA:'#76b900',TSLA:'#cc0000',MSFT:'#00a4ef',SPY:'#6b84a8',QQQ:'#3aa39a'};
+const AVL={XAU:'Au',XAG:'Ag'};
+function baseOf(w){return w.src==='td'?w.sym.split(':')[0]:w.sym.replace(/(USDT|USDC|FDUSD|EUR|BTC|ETH|BNB|TRY)$/,'')||w.sym}
+function avatar(w){const b=baseOf(w),pal=Object.values(C);let h=0;for(const ch of b)h=(h*31+ch.charCodeAt(0))>>>0;
+  const col=AVC[b]||pal[h%pal.length],t=AVL[b]||(b==='BTC'?'₿':b.slice(0,1));
+  return `<span class="av" style="background:${esc(col)}">${esc(t)}</span>`}
 function renderWatch(){
   $('#wl').innerHTML=S.watch.map((w,i)=>{const k=w.src+':'+w.sym,on=k===key(),[p,c]=rowVals(k);
-    return `<li data-i="${i}" data-k="${esc(k)}" class="${on?'on':''}"><div class="n"><b>${esc(w.sym)}</b><span>${esc(w.name||(w.src==='binance'?'Krypto':'Aktie'))}</span></div>
+    return `<li data-i="${i}" data-k="${esc(k)}" class="${on?'on':''}">${avatar(w)}<div class="n"><b>${esc(w.sym)}</b><span>${esc(w.name||(w.src==='td'?'Aktie':w.src==='bnf'?'Futures':'Krypto'))}</span></div>
       <div class="v"><span class="p num">${esc(p)}</span><span class="pill num ${c===''?'':c>=0?'up':'dn'}"${c===''?' style="display:none"':''}>${c===''?'':esc(fmtPct(c))}</span></div>
       <button class="x" data-x="${i}" title="Entfernen" aria-label="Entfernen">×</button></li>`}).join('');
 }
@@ -1000,9 +1146,9 @@ $('#wl').onclick=e=>{
 };
 $('#addF').onsubmit=e=>{
   e.preventDefault();const src=$('#addSrc').value;let sym=$('#addSym').value.trim().toUpperCase().replace(/\s+/g,'');if(!sym)return;
-  if(src==='binance'){sym=sym.replace(/[^A-Z0-9]/g,'');if(!/(USDT|USDC|FDUSD|EUR|BTC|ETH|BNB|TRY)$/.test(sym))sym+='USDT'}
+  if(isBn(src)){sym=sym.replace(/[^A-Z0-9]/g,'');if(!/(USDT|USDC|FDUSD|EUR|BTC|ETH|BNB|TRY)$/.test(sym))sym+='USDT'}
   if(!S.watch.some(w=>w.src===src&&w.sym===sym))S.watch.push({src,sym,name:''});
-  save();$('#addSym').value='';load(src,sym,IV.k);if(src==='binance'){bnTickers();tickerWS()}
+  save();$('#addSym').value='';load(src,sym,IV.k);if(isBn(src)){bnTickers();tickerWS()}
 };
 $('#keyIn').value=S.apiKey;
 $('#keySave').onclick=()=>{S.apiKey=$('#keyIn').value.trim();save();
@@ -1110,7 +1256,7 @@ $('#impFile').onchange=async e=>{
   const f=e.target.files[0];e.target.value='';if(!f)return;
   try{const j=JSON.parse(await f.text());if(j.app!=='fib-chart'||!(j.drawings||j.layouts))throw 0;
     if(j.drawings)for(const k in j.drawings){if(Array.isArray(j.drawings[k]))DR()[k]=j.drawings[k]}
-    if(Array.isArray(j.layouts))for(const l of j.layouts){if(!l||!l.id||!l.drawings)continue;l.ind=l.ind||{};l.ind.rsi={...RSI_DEF,...(l.ind.rsi||{})};
+    if(Array.isArray(j.layouts))for(const l of j.layouts){if(!l||!l.id||!l.drawings)continue;normInd(l);
       const i=S.layouts.findIndex(x=>x.id===l.id);if(i>=0)S.layouts[i]=l;else S.layouts.push(l)}
     if(j.defaults&&j.defaults.fib&&j.defaults.ext)S.defaults={...S.defaults,...j.defaults};
     if(j.presets&&j.presets.fib&&j.presets.ext)S.presets=j.presets;
@@ -1122,7 +1268,7 @@ $('#impFile').onchange=async e=>{
 /* ---------- Aktualität ---------- */
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden)return;
-  if(cur.src==='binance'&&(!ws||ws.readyState>1))load(cur.src,cur.sym,IV.k);
+  if(isBn(cur.src)&&(!ws||ws.readyState>1))load(cur.src,cur.sym,IV.k);
   else if(cur.src==='td'&&bars.length)tdPoll(gen);
   bnTickers();
 });
@@ -1130,13 +1276,13 @@ setInterval(()=>{if(!document.hidden)bnTickers()},60000);
 
 /* ---------- Account & Sync (Supabase) ---------- */
 const SB_URL='https://qlejpqxpxdzdlfvlzbub.supabase.co',SB_KEY='sb_publishable_9WM5ZwWUlucJL__9gHq4gQ_vfJlNBRv';
-const SYNC_KEYS=['layouts','layoutId','defaults','presets','watch','magnet','theme','side','palV','labV'];
+const SYNC_KEYS=['layouts','layoutId','defaults','presets','watch','magnet','theme','side','palV','labV','metV'];
 let sb=null,user=null,dirty=false,pushT=0,pulling=false,syncState='off',syncMsg='',lastSync=0;
 try{sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'fibchart-auth'}})}catch(e){}
 const syncData=()=>{const d={};for(const k of SYNC_KEYS)if(S[k]!==undefined)d[k]=S[k];return d};
 function normalize(){
   if(!Array.isArray(S.layouts)||!S.layouts.length)S.layouts=[{id:'l1',name:'Hauptlayout',src:'binance',sym:'BTCUSDT',iv:'1h',ind:{},drawings:{}}];
-  for(const l of S.layouts){l.ind=l.ind||{};l.ind.rsi={...RSI_DEF,...(l.ind.rsi||{})};l.drawings=l.drawings||{};l.src=l.src||'binance';l.sym=l.sym||'BTCUSDT';l.iv=l.iv||'1h'}
+  for(const l of S.layouts){normInd(l);l.drawings=l.drawings||{};l.src=l.src||'binance';l.sym=l.sym||'BTCUSDT';l.iv=l.iv||'1h'}
   if(!S.layouts.some(l=>l.id===S.layoutId))S.layoutId=S.layouts[0].id;
   S.defaults=S.defaults||{};for(const k of ['fib','ext'])if(!S.defaults[k])S.defaults[k]=mkStyle(k);
   for(const k in SIMPLE)if(!S.defaults[k])S.defaults[k]=clone(SIMPLE[k]);
