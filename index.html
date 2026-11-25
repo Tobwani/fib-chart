@@ -187,6 +187,15 @@ input[type=range]{accent-color:var(--acc);width:100px}
 .newpre{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;margin:8px 0 2px}
 .btn.small{padding:5px 10px;font-size:12.5px}
 .sheetbar{display:none}.mobonly{display:none!important}
+.fab{position:absolute;left:14px;bottom:calc(var(--rsiH,0px) + var(--axisH,30px) + 14px);z-index:8;width:50px;height:50px;border-radius:50%;border:.5px solid var(--sep);
+  background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);box-shadow:0 4px 18px rgba(0,0,0,.18);color:var(--ink);place-items:center}
+.fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.fab.active{background:var(--ink);color:var(--bg)}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.tgrid button,.trow button{border:0;background:none;border-radius:10px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--ink)}
+.tgrid button:active,.trow button:active{background:var(--fill)}
+.tgrid svg,.trow svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.trow{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}.trow .on{color:var(--acc)}.trow .arm{color:var(--dn)}
 @media(max-width:760px){
   html,body{height:100dvh}
   body{padding-top:env(safe-area-inset-top)}
@@ -208,14 +217,16 @@ input[type=range]{accent-color:var(--acc);width:100px}
   .sheetbar .grab{width:38px;height:5px;border-radius:3px;background:var(--sep)}
   .sheetbar .lnk{position:absolute;right:14px;top:6px;font-size:15px}
   aside>.seg{margin-top:0}
-  .palette{left:8px;right:8px;top:auto;bottom:calc(var(--rsiH,0px) + var(--axisH,30px) + 6px);flex-direction:row;overflow-x:auto;scrollbar-width:none;max-width:calc(100% - 16px);width:max-content}
-  .palette::-webkit-scrollbar{display:none}
-  .palette hr{border-top:0;border-left:.5px solid var(--sep);margin:6px 3px;height:auto}
-  .palette button{flex:none;width:40px;height:40px}
-  #legend{left:10px;top:8px;font-size:11px;gap:7px;flex-wrap:wrap;right:10px;white-space:normal}
-  #legend>span:nth-child(2){display:none}
-  #hint{left:10px;top:48px}
-  #selbar{top:auto;right:auto;left:50%;transform:translateX(-50%);bottom:calc(var(--rsiH,0px) + var(--axisH,30px) + 60px)}
+  .palette{display:none}
+  .fab.mobonly{display:grid!important}
+  .menu.toolmenu{top:auto;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom) + 150px)}
+  #legend{left:10px;top:8px;font-size:11px;gap:8px;right:10px;opacity:0;transition:opacity .15s}
+  #legend.show{opacity:1}
+  #legend>span:nth-child(-n+2),#legend>span:last-child{display:none}
+  #hint{left:10px;top:10px;right:10px;white-space:normal}
+  #selbar{top:auto;right:auto;left:50%;transform:translateX(-50%);bottom:calc(var(--rsiH,0px) + var(--axisH,30px) + 14px)}
+  #sbName,#selbar .vsep{display:none!important}
+  #selbar button{width:40px;height:40px}
   .menu{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 56px);width:auto;max-height:75dvh;overflow:auto}
   .menu.acc{width:auto}
   .field,select,input[type=number],input[type=email],input[type=password],input[type=text]{font-size:16px}
@@ -296,6 +307,8 @@ input[type=range]{accent-color:var(--acc);width:100px}
       <button id="undoBtn" title="Rückgängig (Strg+Z)"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg></button>
       <button id="clrBtn" title="Alle Zeichnungen dieses Symbols löschen (2× klicken)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/></svg></button>
     </nav>
+    <button class="fab mobonly" id="fab" type="button" aria-label="Zeichenwerkzeuge"></button>
+    <div class="menu toolmenu" id="toolMenu" hidden><div class="tgrid" id="tgrid"></div><hr><div class="trow" id="trow"></div></div>
     <div id="selbar" hidden>
       <span id="sbName"></span>
       <input type="color" id="sbColor" aria-label="Farbe">
@@ -484,10 +497,10 @@ function ny(){const p=Object.fromEntries(nyFmt.formatToParts(new Date()).map(x=>
 /* ---------- Zeit <-> Index ---------- */
 function idxOfTime(t){
   const n=bars.length;if(!n)return null;
-  if(t<=bars[0].time)return (t-bars[0].time)/IV.s;
-  const last=bars[n-1].time;if(t>=last)return n-1+(t-last)/IV.s;
+  if(t<bars[0].time)return Math.floor((t-bars[0].time)/IV.s);
+  const last=bars[n-1].time;if(t>=last)return n-1+Math.floor((t-last)/IV.s+1e-9);
   let lo=0,hi=n-1;while(hi-lo>1){const m=(lo+hi)>>1;if(bars[m].time<=t)lo=m;else hi=m}
-  return lo+(t-bars[lo].time)/(bars[hi].time-bars[lo].time);
+  return lo;
 }
 function timeOfIdx(i){
   const n=bars.length;if(i<=0)return bars[0].time+i*IV.s;
@@ -697,14 +710,14 @@ function legend(i){
     `<span><i>L</i><span class="${cl}">${f(b.low)}</span></span><span><i>C</i><span class="${cl}">${f(b.close)}</span></span>`+
     `<span class="${ch>=0?'up':'dn'}">${ch>=0?'+':'−'}${f(Math.abs(ch))} (${esc(fmtPct(pct))})</span>`;
 }
-chart.subscribeCrosshairMove(p=>{const i=barIdx(p.time);legendHover=i>=0;legend(i)});
+chart.subscribeCrosshairMove(p=>{const i=barIdx(p.time);legendHover=i>=0;legend(i);$('#legend').classList.toggle('show',legendHover)});
 
 /* ---------- Menüs & Layouts ---------- */
 function closeMenus(){$$('.menu').forEach(m=>m.hidden=true)}
 function openMenu(btn,menu){const was=!$(menu).hidden;closeMenus();if(!was)$(menu).hidden=false}
 $('#indBtn').onclick=e=>{e.stopPropagation();openMenu('#indBtn','#indMenu')};
 $('#lyBtn').onclick=e=>{e.stopPropagation();renderLayouts();$('#lyNameRow').hidden=true;openMenu('#lyBtn','#lyMenu')};
-document.addEventListener('pointerdown',e=>{if(!e.target.closest('.menu,.lybtn,#accBtn'))closeMenus()});
+document.addEventListener('pointerdown',e=>{if(!e.target.closest('.menu,.lybtn,#accBtn,#fab'))closeMenus()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeMenus()});
 let lyAction=null,lyArm=0;
 function renderLayouts(){
@@ -869,7 +882,7 @@ function hitTest(x,y){
 const wrap=$('#wrap');
 const rel=e=>{const r=$('#chart').getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}};
 const inPane=p=>{const P=pane();return p.x>=0&&p.y>=0&&p.x<=P.w&&p.y<=P.h};
-const onUI=e=>e.target.closest&&e.target.closest('.palette,#selbar');
+const onUI=e=>e.target.closest&&e.target.closest('.palette,#selbar,#fab,.menu');
 wrap.addEventListener('pointerdown',e=>{
   HR=e.pointerType==='touch'?2.2:1;
   if(e.button!==0||onUI(e))return;const p=rel(e);if(!inPane(p))return;down=p;
@@ -929,11 +942,11 @@ function setMode(m){
   mode=m;draft=null;hoverPt=null;
   $$('[data-mode]').forEach(b=>b.classList.toggle('on',b.dataset.mode===m));
   if(m!=='cursor'){panelType=m;selected=null;renderPanel()}
-  wrap.style.cursor=m==='cursor'?'':'crosshair';hint();
+  wrap.style.cursor=m==='cursor'?'':'crosshair';hint();updateFab();
 }
 const MAG=['aus','schwach','stark'];
 function cycleMag(){S.magnet=(S.magnet+1)%3;save();renderMag()}
-function renderMag(){$('#magBtn').classList.toggle('on',S.magnet>0);$('#magLbl').textContent=['','S','ST'][S.magnet];$('#magBtn').title=`Magnet (M): ${MAG[S.magnet]} – rastet an Open, High, Low oder Close ein`}
+function renderMag(){if(typeof renderTools==='function')renderTools();$('#magBtn').classList.toggle('on',S.magnet>0);$('#magLbl').textContent=['','S','ST'][S.magnet];$('#magBtn').title=`Magnet (M): ${MAG[S.magnet]} – rastet an Open, High, Low oder Close ein`}
 const STEPS={fib:['Startpunkt','Endpunkt'],ext:['Punkt A','Punkt B','Punkt C'],trend:['Startpunkt','Endpunkt'],hline:['Preis'],rect:['Erste Ecke','Gegenüberliegende Ecke'],measure:['Startpunkt','Endpunkt']};
 function hint(){
   const h=$('#hint'),n=draft?draft.pts.length:0;
@@ -1216,6 +1229,27 @@ $('#logoutBtn').onclick=async()=>{if(dirty)await push();await sb.auth.signOut();
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&user)pull()});
 setInterval(()=>{if(!document.hidden&&user&&!dirty)pull()},60000);
 SYNC_READY=true;
+
+/* ---------- Handy: Werkzeug-Button ---------- */
+const PEN='<svg viewBox="0 0 24 24"><path d="M4 20l4-1 10.5-10.5a2.1 2.1 0 0 0-3-3L5 16l-1 4z"/><path d="M14 7l3 3"/></svg>';
+const XI='<svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+function updateFab(){const f=$('#fab');if(!f)return;const d=mode!=='cursor';f.innerHTML=d?XI:PEN;f.classList.toggle('active',d);f.setAttribute('aria-label',d?'Zeichnen abbrechen':'Zeichenwerkzeuge')}
+let tArm=0;
+function renderTools(){
+  const g=$('#tgrid');if(!g)return;
+  g.innerHTML=['fib','ext','trend','hline','rect','measure'].map(m=>{const b=document.querySelector(`.palette [data-mode="${m}"]`);
+    return `<button data-tool="${m}" type="button">${b?b.querySelector('svg').outerHTML:''}<span>${esc(NAMES[m])}</span></button>`}).join('');
+  const mag=$('#magBtn').querySelector('svg').outerHTML,und=$('#undoBtn').querySelector('svg').outerHTML,clr=$('#clrBtn').querySelector('svg').outerHTML;
+  $('#trow').innerHTML=`<button data-act="mag" class="${S.magnet>0?'on':''}" type="button">${mag}<span>Magnet: ${MAG[S.magnet]}</span></button>`+
+    `<button data-act="undo" type="button">${und}<span>Rückgängig</span></button>`+
+    `<button data-act="clr" class="${tArm?'arm':''}" type="button">${clr}<span>${tArm?'Wirklich?':'Alle löschen'}</span></button>`;
+}
+$('#fab').onclick=e=>{e.stopPropagation();if(mode!=='cursor'){draft=null;setMode('cursor');return}renderTools();openMenu('#fab','#toolMenu')};
+$('#tgrid').onclick=e=>{const b=e.target.closest('[data-tool]');if(!b)return;closeMenus();select(null);setMode(b.dataset.tool)};
+$('#trow').onclick=e=>{const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+  if(a==='mag')cycleMag();else if(a==='undo')doUndo();
+  else if(a==='clr'){if(!tArm){tArm=1;setTimeout(()=>{tArm=0;renderTools()},3000)}else{tArm=0;if(drawings.length){pushUndo();drawings=[];persist();select(null)}closeMenus()}}
+  renderTools()};
 
 /* ---------- Start ---------- */
 size();applyTheme();applySide();renderMag();setMode('cursor');renderLayouts();applyRsi();
