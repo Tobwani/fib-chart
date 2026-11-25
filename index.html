@@ -78,7 +78,7 @@ main.noside{grid-template-columns:minmax(0,1fr)}main.noside aside{display:none}
 .ilg button{width:24px;height:24px;border:0;background:none;border-radius:6px;color:var(--mut);display:grid;place-items:center}
 .ilg button:hover{background:var(--fill);color:var(--ink)}.ilg [data-ia=del]:hover{color:var(--dn)}
 .ilg svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(0,0,0,.3);padding:12px}
+.modal{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:rgba(0,0,0,.32);padding:12px;backdrop-filter:blur(6px) saturate(120%);-webkit-backdrop-filter:blur(6px) saturate(120%)}
 .dlg{width:min(420px,100%);max-height:min(640px,calc(100dvh - 24px));display:flex;flex-direction:column;background:var(--card);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.35);border:.5px solid var(--sep);overflow:hidden}
 .dh{display:flex;align-items:center;justify-content:space-between;padding:12px 10px 4px 18px}.dh b{font-size:16px;font-weight:600}
 .dh svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round}
@@ -86,6 +86,42 @@ main.noside{grid-template-columns:minmax(0,1fr)}main.noside aside{display:none}
 .db{padding:2px 14px 14px;overflow:auto;flex:1}
 .df{display:flex;gap:8px;align-items:center;padding:12px 14px;border-top:.5px solid var(--sep)}.df span{flex:1}
 #rsiLbl:empty,#volLbl:empty{display:none}
+.dlg{animation:pop .22s cubic-bezier(.2,.8,.3,1)}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}}
+@media(prefers-reduced-motion:reduce){.dlg{animation:none}}
+.auth .dlg{width:min(400px,100%);padding:28px 24px 20px;text-align:center;overflow:auto}
+.appic{width:56px;height:56px;border-radius:14px;margin:0 auto 14px;display:block;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.auth h2{font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0 0 6px}
+.auth .sub{color:var(--mut);font-size:14px;margin:0 auto 20px;max-width:32ch;line-height:1.45}
+.auth .sub b{color:var(--ink);font-weight:500}
+.auth form{display:grid;gap:10px;text-align:left}
+.field.big{height:46px;font-size:15px;padding:0 14px;border-radius:11px;width:100%}
+.btn.big{height:46px;font-size:15px;border-radius:11px;width:100%;margin-top:4px}
+.btn.sm{height:30px;font-size:12.5px;padding:0 12px;display:inline-grid;place-items:center;text-decoration:none;margin-top:8px;justify-self:start}
+.btn:disabled{opacity:.6;cursor:default}
+.pwf{position:relative}.pwf .field{padding-right:46px}
+.pweye{position:absolute;right:5px;top:5px;width:36px;height:36px;border:0;background:none;color:var(--mut);display:grid;place-items:center;border-radius:8px}
+.pweye:hover{background:var(--fill);color:var(--ink)}
+.pweye svg,.tip svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.meter{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:2px}.meter i{height:4px;border-radius:2px;background:var(--fill);transition:background .2s}
+.meter[data-s="1"] i:nth-child(-n+1){background:#c9a227}.meter[data-s="2"] i:nth-child(-n+2),.meter[data-s="3"] i:nth-child(-n+3),.meter[data-s="4"] i{background:var(--up)}
+.hintx{font-size:12px;color:var(--mut);margin:0}
+.err{font-size:13px;color:var(--dn);margin:0}.err:empty{display:none}.err .lnk{font-size:13px}
+.alinks{display:flex;justify-content:space-between;gap:12px;margin-top:16px}.alinks.c{justify-content:center}
+.lnk.mut{color:var(--mut)}.lnk{font-size:13.5px}
+.chipmail{justify-self:center;background:var(--fill2);border:.5px solid var(--sep);border-radius:999px;padding:6px 14px;font-size:14px;margin-bottom:2px}
+.tips{display:grid;gap:14px;text-align:left;margin:4px 0 20px}
+.tip{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start}
+.tip i{width:34px;height:34px;border-radius:10px;background:var(--accSoft);color:var(--acc);display:grid;place-items:center}
+.tip b,.step b{font-weight:600;font-size:14px;display:block;margin-bottom:2px}.tip span,.step>div>span{font-size:13px;color:var(--mut);line-height:1.45;display:block}
+.step{text-align:left;display:grid;grid-template-columns:24px 1fr;gap:12px;margin-bottom:18px}
+.step .n{width:24px;height:24px;border-radius:50%;background:var(--fill);font-size:12px;font-weight:600;display:grid;place-items:center}
+.step i{font-style:normal;color:var(--ink)}
+.gform{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}.gform .err,.gform .btn{grid-column:1/-1}.gform .btn{justify-self:start}
+.flab{display:grid;gap:4px;font-size:12px;color:var(--mut)}.flab .field{width:100%}
+.linkout{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px;margin:10px 0 6px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translate(-50%,16px);opacity:0;transition:opacity .25s,transform .25s;background:rgba(29,29,31,.9);color:#fff;padding:10px 16px;border-radius:999px;font-size:13.5px;z-index:90;pointer-events:none;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+#toast.show{opacity:1;transform:translate(-50%,0)}
 #legend{position:absolute;left:64px;top:13px;z-index:6;font-size:12px;color:var(--mut);pointer-events:none;white-space:nowrap;display:flex;gap:10px;align-items:baseline;font-variant-numeric:tabular-nums}
 #legend .s{color:var(--ink);font-weight:600}
 #legend i{font-style:normal;margin-right:3px}
@@ -255,6 +291,9 @@ input[type=range]{accent-color:var(--acc);width:100px}
   .menu{position:fixed;left:8px;right:8px;top:calc(env(safe-area-inset-top) + 56px);width:auto;max-height:75dvh;overflow:auto}
   .menu.acc{width:auto}
   .field,select,input[type=number],input[type=email],input[type=password],input[type=text]{font-size:16px}
+  .auth.modal{place-items:end center;padding:0}
+  .gform{grid-template-columns:1fr}
+  .auth .dlg{width:100%;max-height:92dvh;border-radius:20px 20px 0 0;padding-bottom:calc(20px + env(safe-area-inset-bottom))}
 }
 </style>
 <script src="vendor/lightweight-charts.js"></script>
@@ -272,6 +311,7 @@ input[type=range]{accent-color:var(--acc);width:100px}
       <button class="mi" data-a="dup" type="button">Layout duplizieren</button>
       <button class="mi" data-a="ren" type="button">Umbenennen</button>
       <button class="mi danger" data-a="del" id="lyDel" type="button">Layout löschen</button>
+      <button class="mi mobonly" id="themeBtn3" type="button">Hell / Dunkel umschalten</button>
       <div class="mrow" id="lyNameRow" hidden><input class="field" id="lyNameIn" autocomplete="off" aria-label="Layout-Name"><button class="btn" id="lyOk" type="button">OK</button></div>
     </div>
   </div>
@@ -291,19 +331,13 @@ input[type=range]{accent-color:var(--acc);width:100px}
     <div class="lywrap">
       <button class="ibtn" id="accBtn" title="Anmelden"><svg viewBox="0 0 24 24"><circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg><i id="accDot" class="off"></i></button>
       <div class="menu r acc" id="accMenu" hidden>
-        <div id="accOut">
-          <div class="mh">Anmelden für Sync</div>
-          <form id="loginF" class="accf"><input class="field" type="email" id="lgMail" placeholder="E-Mail" autocomplete="username" aria-label="E-Mail"><input class="field" type="password" id="lgPw" placeholder="Passwort" autocomplete="current-password" aria-label="Passwort"><button class="btn" type="submit">Anmelden</button><p class="gnote" id="lgMsg"></p></form>
-          <p class="gnote" style="padding:0 6px">Ohne Anmeldung bleibt alles nur in diesem Browser.</p>
-          <button class="mi mobonly" id="themeBtn3" type="button">Hell / Dunkel umschalten</button>
-        </div>
         <div id="accIn" hidden>
           <div class="mh" id="accMail"></div>
           <p class="gnote" id="syncTxt" style="padding:0 10px;margin-top:0"></p>
           <button class="mi" id="syncNow" type="button">Jetzt synchronisieren</button>
-          <button class="mi mobonly" id="themeBtn2" type="button">Hell / Dunkel umschalten</button>
+          <button class="mi" id="invBtn" type="button">Jemanden einladen</button>
           <button class="mi" id="pwBtn" type="button">Passwort ändern</button>
-          <form id="pwF" class="accf" hidden><input class="field" type="password" id="pw1" placeholder="Neues Passwort (min. 8 Zeichen)" autocomplete="new-password" aria-label="Neues Passwort"><input class="field" type="password" id="pw2" placeholder="Wiederholen" autocomplete="new-password" aria-label="Passwort wiederholen"><button class="btn" type="submit">Speichern</button><p class="gnote" id="pwMsg"></p></form>
+          <button class="mi mobonly" id="themeBtn2" type="button">Hell / Dunkel umschalten</button>
           <hr><button class="mi danger" id="logoutBtn" type="button">Abmelden</button>
         </div>
       </div>
@@ -402,6 +436,8 @@ input[type=range]{accent-color:var(--acc);width:100px}
     </div>
   </aside>
 </main>
+<div class="modal auth" id="authDlg" hidden><div class="dlg" id="authBox" role="dialog" aria-modal="true" aria-labelledby="authTitle"></div></div>
+<div id="toast" role="status" aria-live="polite"></div>
 <div class="modal" id="indDlg" hidden><div class="dlg" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
   <div class="dh"><b id="dlgTitle"></b><button class="ibtn" id="dlgX" type="button" aria-label="Schließen"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="seg" id="dlgTabs"></div>
@@ -410,6 +446,7 @@ input[type=range]{accent-color:var(--acc);width:100px}
 </div></div>
 <script>
 {
+const START_HASH=location.hash;
 const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const clone=o=>JSON.parse(JSON.stringify(o));
@@ -1342,36 +1379,120 @@ window.addEventListener('pagehide',()=>{
       headers:{apikey:SB_KEY,Authorization:'Bearer '+tok,'Content-Type':'application/json',Prefer:'resolution=merge-duplicates'},
       body:JSON.stringify({user_id:user.id,data:syncData(),updated_at:new Date().toISOString()})})}catch(e){}
 });
+/* ---------- Konto: Anmelden, Einladen, Passwort ---------- */
+const AUTH_DE={'Invalid login credentials':'E-Mail oder Passwort stimmt nicht.','Email not confirmed':'Diese E-Mail ist noch nicht bestätigt.','Signups not allowed':'Neue Registrierungen sind geschlossen.',
+  'New password should be different':'Das neue Passwort muss sich vom alten unterscheiden.','Password should be at least':'Das Passwort ist zu kurz.','Email address not authorized':'An diese Adresse kann gerade keine Mail geschickt werden.',
+  'For security purposes':'Bitte warte kurz und versuch es dann noch einmal.','Failed to fetch':'Keine Verbindung. Bist du online?','email rate limit exceeded':'Gerade wurden zu viele Mails verschickt. Versuch es später noch einmal.'};
+const authErr=e=>{const m=(e&&e.message)||String(e);for(const k in AUTH_DE)if(m.toLowerCase().startsWith(k.toLowerCase()))return AUTH_DE[k];return m};
+const b64e=o=>btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const b64d=s=>JSON.parse(decodeURIComponent(escape(atob(s.replace(/-/g,'+').replace(/_/g,'/')))));
+let invite=null,authMode=null,authOpt={};
+if(START_HASH.startsWith('#invite=')){try{invite=b64d(START_HASH.slice(8))}catch(e){}history.replaceState(null,'',location.pathname+location.search)}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show'),2600)}
+function pwScore(p){if(p.length<8)return 0;let s=1;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))s++;if(/\d/.test(p))s++;if(/[^A-Za-z0-9]/.test(p))s++;if(p.length>=14)s++;return Math.min(4,s)}
+const PWL=['Mindestens 8 Zeichen','Okay – länger wäre besser','Gut','Sehr gut','Stark'];
+const pwField=(id,ac,ph)=>`<div class="pwf"><input class="field big" type="password" id="${id}" autocomplete="${ac}" placeholder="${ph}" aria-label="${ph}" required><button type="button" class="pweye" data-for="${id}" aria-label="Passwort anzeigen">${EYE}</button></div>`;
+const meter=()=>`<div class="meter" id="pwMeter" data-s="0"><i></i><i></i><i></i><i></i></div><p class="hintx" id="pwHint">${PWL[0]}</p>`;
+const head=(t,sub)=>`<img class="appic" src="icons/icon-192.png" alt=""><h2 id="authTitle">${t}</h2>${sub?`<p class="sub">${sub}</p>`:''}`;
+const TIP_I={draw:'<svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 14h16M4 19h16"/></svg>',ind:'<svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 3 5-7 4 4"/></svg>',sync:'<svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14.5 4.6M4 12a8 8 0 0 1 14.5-4.6M18.5 3v4.4H14M5.5 21v-4.4H10"/></svg>'};
+function myName(){if(S.myName)return S.myName;const e=(user&&user.email)||'';const n=e.split('@')[0].split(/[._\-0-9]/)[0];return n?n[0].toUpperCase()+n.slice(1):''}
+function openAuth(mode,opt={}){
+  closeMenus();authMode=mode;authOpt=opt;let h='';
+  if(mode==='login')h=head('Anmelden','Deine Layouts und Zeichnungen – auf jedem Gerät gleich.')+
+    `<form id="aF" novalidate><input class="field big" type="email" id="aMail" autocomplete="username" placeholder="E-Mail" aria-label="E-Mail" value="${esc(opt.email||'')}" required>${pwField('aPw','current-password','Passwort')}<p class="err" id="aErr" role="alert"></p><button class="btn big" type="submit">Anmelden</button></form>
+     <div class="alinks"><button class="lnk" data-go="forgot" type="button">Passwort vergessen?</button><button class="lnk mut" data-close type="button">Ohne Konto weiter</button></div>`;
+  else if(mode==='invite')h=head(`Hallo${opt.n?' '+esc(opt.n):''}!`,`${esc(opt.from||'Du')} hat dich zu Fib Chart eingeladen. Wähle ein Passwort – dann bist du drin.`)+
+    `<form id="aF" novalidate><div class="chipmail">${esc(opt.e||'')}</div><input type="email" autocomplete="username" value="${esc(opt.e||'')}" hidden>${pwField('aPw','new-password','Dein Passwort')}${meter()}<p class="err" id="aErr" role="alert"></p><button class="btn big" type="submit">Konto aktivieren</button></form>`;
+  else if(mode==='reset'||mode==='change')h=head(mode==='reset'?'Neues Passwort':'Passwort ändern',mode==='reset'?'Wähle ein neues Passwort für dein Konto.':'Danach gilt das neue Passwort auf allen Geräten.')+
+    `<form id="aF" novalidate><input type="email" autocomplete="username" value="${esc((user&&user.email)||'')}" hidden>${pwField('aPw','new-password','Neues Passwort')}${meter()}<p class="err" id="aErr" role="alert"></p><button class="btn big" type="submit">Passwort speichern</button></form>`+
+    (mode==='change'?'<div class="alinks c"><button class="lnk mut" data-close type="button">Abbrechen</button></div>':'');
+  else if(mode==='forgot')h=head('Passwort vergessen?','Gib deine E-Mail ein. Du bekommst einen Link, mit dem du ein neues Passwort festlegst.')+
+    `<form id="aF" novalidate><input class="field big" type="email" id="aMail" autocomplete="username" placeholder="E-Mail" aria-label="E-Mail" value="${esc(opt.email||'')}" required><p class="err" id="aErr" role="alert"></p><button class="btn big" type="submit">Link senden</button></form>
+     <div class="alinks c"><button class="lnk" data-go="login" type="button">Zurück zum Anmelden</button></div>`;
+  else if(mode==='sent')h=head('Schau in dein Postfach',`Wenn <b>${esc(opt.email||'')}</b> zu einem Konto gehört, ist der Link unterwegs. Kommt nichts an, bitte Tobi um einen neuen Einladungslink.`)+
+    `<button class="btn big" data-close type="button">Alles klar</button>`;
+  else if(mode==='welcome')h=head('Du bist drin.','Ab jetzt wird alles automatisch gespeichert – auf jedem Gerät, auf dem du dich anmeldest.')+
+    `<div class="tips"><div class="tip"><i>${TIP_I.draw}</i><div><b>Zeichnen</b><span>${mob.matches?'Stift unten links antippen, Werkzeug wählen, auf den Chart tippen.':'Werkzeug links wählen und in den Chart klicken. Rechtsklick oder Esc bricht ab.'}</span></div></div>
+     <div class="tip"><i>${TIP_I.ind}</i><div><b>Indikatoren</b><span>Oben über „Indikatoren“ hinzufügen. Einstellungen findest du direkt an der Legende im Chart.</span></div></div>
+     <div class="tip"><i>${TIP_I.sync}</i><div><b>Überall dabei</b><span>Am Handy dieselbe Adresse öffnen, anmelden und „Zum Startbildschirm hinzufügen“.</span></div></div></div>
+     <button class="btn big" data-close type="button">Los geht's</button>`;
+  else if(mode==='invgen')h=head('Jemanden einladen','Ganz ohne E-Mail: Du legst das Konto an und schickst einen persönlichen Link.')+
+    `<div class="step"><span class="n">1</span><div><b>Konto anlegen</b><span>In Supabase unter Users auf <i>Add user → Create new user</i>. E-Mail eintragen, ein beliebiges Startpasswort vergeben, Haken bei <i>Auto Confirm User</i>.</span>
+       <a class="btn sec sm" href="https://supabase.com/dashboard/project/qlejpqxpxdzdlfvlzbub/auth/users" target="_blank" rel="noopener">Supabase öffnen</a></div></div>
+     <div class="step"><span class="n">2</span><div><b>Link erstellen</b><span>Dieselbe E-Mail und dasselbe Startpasswort eintragen.</span>
+       <form id="aF" class="gform" novalidate>
+         <label class="flab">Vorname<input class="field" id="gName" placeholder="optional" autocomplete="off"></label>
+         <label class="flab">E-Mail<input class="field" id="gMail" type="email" placeholder="name@beispiel.de" autocomplete="off" required></label>
+         <label class="flab">Startpasswort<input class="field" id="gPw" placeholder="wie in Supabase" autocomplete="off" required></label>
+         <label class="flab">Dein Name<input class="field" id="gFrom" placeholder="steht in der Begrüßung" autocomplete="off" value="${esc(myName())}"></label>
+         <p class="err" id="aErr" role="alert"></p><button class="btn" type="submit">Link erstellen</button></form>
+       <div id="gOut" hidden><div class="linkout"><input class="field" id="gLink" readonly aria-label="Einladungslink"><button class="btn sec" id="gCopy" type="button">Kopieren</button>${navigator.share?'<button class="btn sec" id="gShare" type="button">Teilen</button>':''}</div>
+         <p class="hintx">Der Link funktioniert wie ein Schlüssel, bis das Passwort festgelegt ist. Schick ihn nur direkt an die Person.</p></div></div></div>
+     <div class="alinks c"><button class="lnk mut" data-close type="button">Fertig</button></div>`;
+  $('#authBox').innerHTML=h;$('#authBox').dataset.mode=mode;$('#authDlg').hidden=false;
+  setTimeout(()=>{const f=$('#authBox input:not([hidden]):not([readonly])');if(f&&!mob.matches)f.focus()},40);
+}
+function closeAuth(){if(authMode==='invite')return;$('#authDlg').hidden=true;authMode=null}
+function busy(on,label){const b=$('#authBox [type=submit]');if(!b)return;if(on){b.dataset.l=b.textContent;b.textContent=label||'Einen Moment…';b.disabled=true}else{b.textContent=b.dataset.l||b.textContent;b.disabled=false}}
+const errOut=t=>{const e=$('#aErr');if(e)e.textContent=t||''};
+$('#authBox').addEventListener('click',e=>{
+  const eye=e.target.closest('.pweye');if(eye){const i=$('#'+eye.dataset.for),show=i.type==='password';i.type=show?'text':'password';eye.innerHTML=show?EYEOFF:EYE;eye.setAttribute('aria-label',show?'Passwort verbergen':'Passwort anzeigen');i.focus();return}
+  const go=e.target.closest('[data-go]');if(go){openAuth(go.dataset.go,{email:($('#aMail')||{}).value||''});return}
+  if(e.target.closest('[data-close]')){if(authMode==='welcome'||authMode==='sent')authMode=null;$('#authDlg').hidden=true;authMode=null;return}
+  if(e.target.id==='gCopy'){const l=$('#gLink');l.select();(navigator.clipboard?navigator.clipboard.writeText(l.value):Promise.reject()).then(()=>toast('Link kopiert'),()=>{document.execCommand('copy');toast('Link kopiert')})}
+  if(e.target.id==='gShare'){navigator.share({title:'Fib Chart',text:'Hier ist deine Einladung zu Fib Chart:',url:$('#gLink').value}).catch(()=>{})}
+});
+$('#authBox').addEventListener('input',e=>{if(e.target.id!=='aPw'||!$('#pwMeter'))return;const s=pwScore(e.target.value);$('#pwMeter').dataset.s=s;$('#pwHint').textContent=PWL[s];errOut('')});
+$('#authDlg').addEventListener('pointerdown',e=>{if(e.target.id==='authDlg')closeAuth()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#authDlg').hidden)closeAuth()});
+$('#authBox').addEventListener('submit',async e=>{
+  e.preventDefault();if(!sb)return errOut('Konto-Dienst konnte nicht geladen werden.');errOut('');
+  const pw=($('#aPw')||{}).value||'';
+  if(authMode==='login'){
+    const em=$('#aMail').value.trim();if(!em||!pw)return errOut('Bitte E-Mail und Passwort eingeben.');
+    busy(true,'Melde an…');const {error}=await sb.auth.signInWithPassword({email:em,password:pw});busy(false);
+    if(error)return errOut(authErr(error));$('#authDlg').hidden=true;authMode=null;toast('Angemeldet');
+  }else if(authMode==='invite'){
+    if(pwScore(pw)<1)return errOut('Bitte mindestens 8 Zeichen.');
+    busy(true,'Aktiviere…');
+    if(user&&user.email!==authOpt.e)await sb.auth.signOut();
+    let r=await sb.auth.signInWithPassword({email:authOpt.e,password:authOpt.p});
+    if(r.error){busy(false);if(/Invalid login/i.test(r.error.message)){$('#aErr').innerHTML='Dieser Link wurde schon benutzt. <button class="lnk" data-go="login" type="button">Mit Passwort anmelden</button>';authOpt.email=authOpt.e;return}return errOut(authErr(r.error))}
+    r=await sb.auth.updateUser({password:pw,data:{pw_set:true,name:authOpt.n||''}});busy(false);
+    if(r.error)return errOut(authErr(r.error));
+    invite=null;authMode=null;openAuth('welcome');
+  }else if(authMode==='reset'||authMode==='change'){
+    if(pwScore(pw)<1)return errOut('Bitte mindestens 8 Zeichen.');
+    busy(true,'Speichere…');const {error}=await sb.auth.updateUser({password:pw,data:{pw_set:true}});busy(false);
+    if(error)return errOut(authErr(error));$('#authDlg').hidden=true;authMode=null;toast('Passwort gespeichert');
+  }else if(authMode==='forgot'){
+    const em=$('#aMail').value.trim();if(!/^\S+@\S+\.\S+$/.test(em))return errOut('Bitte eine gültige E-Mail eingeben.');
+    busy(true,'Sende…');const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});busy(false);
+    if(error&&!/not authorized/i.test(error.message))return errOut(authErr(error));openAuth('sent',{email:em});
+  }else if(authMode==='invgen'){
+    const em=$('#gMail').value.trim(),p=$('#gPw').value,n=$('#gName').value.trim(),from=$('#gFrom').value.trim();
+    if(!/^\S+@\S+\.\S+$/.test(em))return errOut('Bitte die E-Mail eintragen.');if(p.length<6)return errOut('Das Startpasswort muss mindestens 6 Zeichen haben.');
+    if(from){S.myName=from;saveLocal()}
+    $('#gLink').value=`${location.origin}${location.pathname}#invite=${b64e({e:em,p,n,from})}`;$('#gOut').hidden=false;$('#gLink').select();$('#gOut').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+});
 function renderAccount(){
-  $('#accOut').hidden=!!user;$('#accIn').hidden=!user;
-  if(user){$('#accMail').textContent=user.email||'Angemeldet'}
-  $('#accDot').className=user?syncState:'off';$('#accBtn').title=user?'Account: '+(user.email||''):'Anmelden für Sync';renderSyncTxt();
+  $('#accIn').hidden=!user;
+  if(user){const n=(user.user_metadata&&user.user_metadata.name)||'';$('#accMail').textContent=n?`${n} · ${user.email}`:(user.email||'Angemeldet')}
+  $('#accDot').className=user?syncState:'off';$('#accBtn').title=user?'Konto: '+(user.email||''):'Anmelden';renderSyncTxt();
 }
 if(sb)sb.auth.onAuthStateChange((ev,session)=>{
   const was=user&&user.id;user=session?session.user:null;renderAccount();
+  if(ev==='PASSWORD_RECOVERY')setTimeout(()=>openAuth('reset'),0);
   if(user&&(ev==='SIGNED_IN'||ev==='INITIAL_SESSION')&&was!==user.id)setTimeout(pull,0);
   if(!user)setSync('off');
 });
-$('#accBtn').onclick=e=>{e.stopPropagation();renderAccount();openMenu('#accBtn','#accMenu');if(!user)setTimeout(()=>$('#lgMail').focus(),0)};
-const AUTH_DE={'Invalid login credentials':'E-Mail oder Passwort falsch.','Email not confirmed':'E-Mail ist noch nicht bestätigt.','Signups not allowed for this instance':'Registrierung ist geschlossen.'};
-$('#loginF').onsubmit=async e=>{
-  e.preventDefault();if(!sb){$('#lgMsg').textContent='Supabase konnte nicht geladen werden.';return}
-  const b=$('#loginF button');b.disabled=true;$('#lgMsg').textContent='Melde an…';
-  const {error}=await sb.auth.signInWithPassword({email:$('#lgMail').value.trim(),password:$('#lgPw').value});
-  b.disabled=false;
-  if(error){$('#lgMsg').textContent=AUTH_DE[error.message]||error.message;return}
-  $('#lgMsg').textContent='';$('#lgPw').value='';
-};
-$('#syncNow').onclick=async()=>{await pull();if(dirty)await push()};
-$('#pwBtn').onclick=()=>{$('#pwF').hidden=!$('#pwF').hidden;$('#pwMsg').textContent='';if(!$('#pwF').hidden)$('#pw1').focus()};
-$('#pwF').onsubmit=async e=>{
-  e.preventDefault();const a=$('#pw1').value,b=$('#pw2').value,m=$('#pwMsg');
-  if(a.length<8){m.textContent='Mindestens 8 Zeichen.';return}if(a!==b){m.textContent='Passwörter stimmen nicht überein.';return}
-  m.textContent='Speichere…';const {error}=await sb.auth.updateUser({password:a});
-  if(error){m.textContent=error.message;return}
-  m.textContent='Passwort geändert ✓';$('#pw1').value=$('#pw2').value='';setTimeout(()=>$('#pwF').hidden=true,1500);
-};
-$('#logoutBtn').onclick=async()=>{if(dirty)await push();await sb.auth.signOut();closeMenus()};
+$('#accBtn').onclick=e=>{e.stopPropagation();if(!user){openAuth('login');return}renderAccount();openMenu('#accBtn','#accMenu')};
+$('#syncNow').onclick=async()=>{await pull();if(dirty)await push();toast(syncState==='ok'?'Synchronisiert':'Sync fehlgeschlagen')};
+$('#pwBtn').onclick=()=>openAuth('change');
+$('#invBtn').onclick=()=>openAuth('invgen');
+$('#logoutBtn').onclick=async()=>{if(dirty)await push();await sb.auth.signOut();closeMenus();toast('Abgemeldet')};
+if(invite&&invite.e&&invite.p)setTimeout(()=>openAuth('invite',invite),300);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden&&user)pull()});
 setInterval(()=>{if(!document.hidden&&user&&!dirty)pull()},60000);
 SYNC_READY=true;
