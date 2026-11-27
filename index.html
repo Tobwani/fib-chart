@@ -326,6 +326,26 @@ button,a,label,input,select{-webkit-tap-highlight-color:transparent;touch-action
 #hint:not(:empty){padding-right:12px!important;background:var(--glass);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border:.5px solid var(--sep);box-shadow:var(--shadow);border-radius:999px;padding:5px 6px 5px 12px;display:flex;align-items:center;width:max-content;max-width:calc(100% - 20px)}
 #hint>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:760px){#hint:not(:empty){top:34px;left:50%;right:auto;transform:translateX(-50%)}}
+/* Ereignisse */
+#newsBtn.on svg{color:var(--acc)}
+#newsMenu{width:300px}#newsMenu .opt>span{display:flex;flex-direction:column}#newsMenu small{font-size:11.5px;color:var(--mut)}.nwt{font-weight:500}
+.evpop{position:absolute;z-index:9;width:330px;max-height:min(70%,460px);overflow:auto;padding:14px 14px 10px;border-radius:14px;background:var(--menu);
+  backdrop-filter:saturate(180%) blur(24px);-webkit-backdrop-filter:saturate(180%) blur(24px);border:.5px solid var(--sep);box-shadow:var(--shadow);font-size:13px;line-height:1.45}
+.evpop .evx{position:absolute;right:8px;top:8px;width:28px;height:28px;border:0;padding:0;border-radius:8px;background:none;color:var(--mut);display:grid;place-items:center}
+.evpop .evx svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round}
+.evh{display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:center;padding-right:26px}
+.evh i{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-weight:700}
+.evh b{display:block;font-weight:600;font-size:14px;line-height:1.3}.evh span{font-size:12px;color:var(--mut)}
+.evpop p{margin:10px 0 0}.evm b.up{color:var(--up)}.evm b.dn{color:var(--dn)}
+.evl{margin-top:12px;border-top:.5px solid var(--sep);padding-top:4px}.evl .mh{padding:6px 0 4px}
+.evi{display:block;padding:7px 0;text-decoration:none;color:var(--ink);border-bottom:.5px solid var(--sep)}.evi b{font-weight:500;display:block}.evi span{font-size:11.5px;color:var(--mut)}
+.evn,.evsrc{color:var(--mut);font-size:12px}.evsrc{margin-top:8px!important}
+#toast.act{pointer-events:auto;display:flex;align-items:center;gap:10px}#toast button{border:0;border-radius:999px;background:#fff;color:#1d1d1f;font-weight:600;padding:4px 12px;font-size:13px}
+@media(max-width:760px){
+  #newsBtn .lbl{display:none}
+  .evpop{position:fixed;left:0!important;right:0;top:auto!important;bottom:0;width:auto;max-height:65dvh;border-radius:18px 18px 0 0;padding-bottom:calc(14px + env(safe-area-inset-bottom));z-index:45}
+}
+@media(min-width:761px) and (max-width:1240px){#indBtn .lbl,#newsBtn .lbl,#stTxt{display:none}.status{padding:0 6px}header{gap:12px}}
 /* Flyouts neben der Palette */
 .menu.flyout{top:0;left:0;min-width:230px}
 .menu.magm{width:270px}.magm .gnote{margin:2px 10px 6px}
@@ -372,6 +392,18 @@ button,a,label,input,select{-webkit-tap-highlight-color:transparent;touch-action
       <div class="mh">Indikatoren</div>
       <button class="mi" data-ind="rsi" type="button">Relative Strength Index (RSI)</button>
       <button class="mi" data-ind="vol" type="button">Volumen</button>
+    </div>
+  </div>
+  <div class="lywrap">
+    <button class="lybtn" id="newsBtn" title="Ereignisse & News"><svg viewBox="0 0 24 24"><path d="M5 4h11a2 2 0 0 1 2 2v13a1.5 1.5 0 0 0 3 0V9h-3"/><path d="M5 4v15a1.5 1.5 0 0 0 1.5 1.5H19.5"/><path d="M8.5 8h6M8.5 11.5h6M8.5 15h4"/></svg><span class="lbl">Ereignisse</span></button>
+    <div class="menu r" id="newsMenu" hidden>
+      <div class="mh">Ereignisse im Chart</div>
+      <label class="opt"><span><b class="nwt">Großereignisse</b><small>Zölle, Kriege, Fed, ETFs, Halvings</small></span><input type="checkbox" class="sw" id="nwEv"></label>
+      <label class="opt"><span><b class="nwt">Starke Reaktionen</b><small>Antippen zeigt Schlagzeilen aus dem Zeitraum</small></span><input type="checkbox" class="sw" id="nwRx"></label>
+      <label class="opt"><span><b class="nwt">Wale & Liquidationen</b><small>Live von Binance, nur Krypto</small></span><input type="checkbox" class="sw" id="nwWh"></label>
+      <label class="opt"><span>Wal-Trades ab</span><select id="nwWhMin"><option value="500000">0,5 Mio. $</option><option value="1000000">1 Mio. $</option><option value="2000000">2 Mio. $</option><option value="5000000">5 Mio. $</option><option value="10000000">10 Mio. $</option></select></label>
+      <label class="opt"><span>Liquidationen ab</span><select id="nwLqMin"><option value="100000">0,1 Mio. $</option><option value="250000">0,25 Mio. $</option><option value="500000">0,5 Mio. $</option><option value="1000000">1 Mio. $</option><option value="5000000">5 Mio. $</option></select></label>
+      <p class="gnote" style="padding:0 6px">Wale werden nur aufgezeichnet, solange die Seite offen ist, und bleiben 30 Tage auf diesem Gerät gespeichert.</p>
     </div>
   </div>
   <div class="right">
@@ -431,6 +463,7 @@ button,a,label,input,select{-webkit-tap-highlight-color:transparent;touch-action
       <button id="sbDel" class="del" title="Löschen (Entf)" aria-label="Löschen"><svg viewBox="0 0 24 24"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
     </div>
     <div id="legend"></div><div id="hint"></div>
+    <div class="evpop" id="evPop" hidden></div>
   </section>
   <aside class="card">
     <div class="sheetbar"><span class="grab"></span><button class="lnk" id="sheetClose" type="button">Fertig</button></div>
@@ -755,17 +788,17 @@ function stopFeeds(){
   if(tdws){tdws.onclose=null;try{tdws.close()}catch(e){}tdws=null}
   clearInterval(pollT);clearInterval(hbT);clearTimeout(reT);
 }
-function setStatus(c,t){$('#dot').className=c;$('#stTxt').textContent=t}
+function setStatus(c,t){$('#dot').className=c;$('#stTxt').textContent=t;$('.status').title=t}
 function applyBar(b){
   const n=bars.length,l=bars[n-1];if(l&&b.time<l.time)return;
   if(l&&b.time===l.time)bars[n-1]=b;else bars.push(b);
   series.update(b);rsiTick();if(!legendHover)legend(-1);
   const k=key();Q[k]=Q[k]||{};Q[k].p=b.close;if(Q[k].prev)Q[k].c=(b.close-Q[k].prev)/Q[k].prev*100;
-  header();updRow(k);
+  header();updRow(k);if(typeof newsLive==='function'&&bars.length>20)newsLive(b);
 }
 function setPrec(){prec=digits(bars[bars.length-1].close);series.applyOptions({priceFormat:{type:'price',precision:prec,minMove:1/10**prec}})}
 async function load(src,sym,ivk){
-  const g=++gen;stopFeeds();cur={src,sym};IV=IVS.find(i=>i.k===ivk)||IVS[3];
+  const g=++gen;stopFeeds();if(typeof closeNews==='function')closeNews();cur={src,sym};IV=IVS.find(i=>i.k===ivk)||IVS[3];
   S.last={src,sym,iv:IV.k};Object.assign(Lay(),{src,sym,iv:IV.k});save();
   pzoom=1;chart.priceScale('right').applyOptions({autoScale:true});rsiChart.priceScale('right').applyOptions({autoScale:true});
   bars=[];series.setData([]);rsiSeries.setData([]);legend(-1);selected=null;draft=null;drag=null;undo=[];noMoreOld=false;updateSelbar();
@@ -1123,6 +1156,7 @@ function draw(){
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
   if(!bars.length)return;const P=pane();
   ctx.save();ctx.beginPath();ctx.rect(0,0,P.w,P.h);ctx.clip();
+  if(typeof paintNews==='function')paintNews(P);
   for(const d of drawings)paint(d,d===selected,d===hoverD,P);
   if(mode!=='cursor'&&hoverPt){
     const pts=[...(draft?draft.pts:[]),hoverPt];
@@ -1194,7 +1228,7 @@ wrap.addEventListener('wheel',e=>{const p=rel(e),P=pane();if(p.x<=P.w||p.y<0||p.
 wrap.addEventListener('dblclick',e=>{const p=rel(e),P=pane();if(p.x>P.w&&p.y<=P.h){pzoom=1;series.applyOptions({autoscaleInfoProvider:zoomProv})}},true);
 const rel=e=>{const r=$('#chart').getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top}};
 const inPane=p=>{const P=pane();return p.x>=0&&p.y>=0&&p.x<=P.w&&p.y<=P.h};
-const onUI=e=>e.target.closest&&e.target.closest('.palette,#selbar,#fab,.menu,.ilg,#hint');
+const onUI=e=>e.target.closest&&e.target.closest('.palette,#selbar,#fab,.menu,.ilg,#hint,#evPop,.rtbtn');
 /* Touch-Zeichnen wie bei TradingView: Finger verschiebt das Fadenkreuz relativ, Tippen setzt den Punkt */
 let lastPT='mouse',cross=null,tdrag=null;
 window.addEventListener('pointerdown',e=>{lastPT=e.pointerType||'mouse'},true);
@@ -1250,7 +1284,7 @@ window.addEventListener('pointermove',e=>{
   }
   if(onUI(e)||!inPane(p)){hoverPt=null;hoverD=null;return}
   if(mode!=='cursor'){hoverPt=ptFrom(p.x,p.y);wrap.style.cursor='crosshair'}
-  else{const h=hitTest(p.x,p.y);hoverD=h?h.d:null;wrap.style.cursor=h?(h.h!=null?'grab':'move'):''}
+  else{const h=hitTest(p.x,p.y);hoverD=h?h.d:null;wrap.style.cursor=h?(h.h!=null?'grab':'move'):(newsAt(p.x,p.y)?'pointer':'')}
 });
 window.addEventListener('pointerup',e=>{
   if(tdrag){if(e.pointerId!==tdrag.id)return;const tap=tdrag.moved<10&&performance.now()-tdrag.t0<450;tdrag=null;blockChart=false;
@@ -1259,7 +1293,8 @@ window.addEventListener('pointerup',e=>{
   if(drag){const t=drag.touch;if(drag.moved){undo.push(drag.snap);redo=[];persist()}drag=null;hoverPt=null;down=null;if(t)endCross();return}
   if(!down)return;const moved=Math.hypot(p.x-down.x,p.y-down.y);down=null;if(moved>(e.pointerType==='touch'?12:4)||!inPane(p))return;
   if(mode==='cursor'&&e.shiftKey)setMode('measure');
-  if(mode==='cursor'){const h=hitTest(p.x,p.y);select(h?h.d:null);return}
+  if(mode==='cursor'){const nh=newsAt(p.x,p.y),h=hitTest(p.x,p.y);
+    if(nh&&!(h&&h.d===selected)){openNews(nh);return}if(evOpen)closeNews();select(h?h.d:null);return}
   addPoint(ptFrom(p.x,p.y));
 });
 window.addEventListener('pointercancel',e=>{if(tdrag&&e.pointerId===tdrag.id){tdrag=null;blockChart=false}
@@ -1488,7 +1523,7 @@ setInterval(()=>{if(!document.hidden)bnTickers()},60000);
 
 /* ---------- Account & Sync (Supabase) ---------- */
 const SB_URL='https://qlejpqxpxdzdlfvlzbub.supabase.co',SB_KEY='sb_publishable_9WM5ZwWUlucJL__9gHq4gQ_vfJlNBRv';
-const SYNC_KEYS=['layouts','layoutId','defaults','presets','watch','magnet','magStr','lineLast','theme','side','palV','labV','metV'];
+const SYNC_KEYS=['layouts','layoutId','defaults','presets','watch','magnet','magStr','lineLast','news','theme','side','palV','labV','metV'];
 let sb=null,user=null,dirty=false,pushT=0,pulling=false,syncState='off',syncMsg='',lastSync=0;
 try{sb=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:'fibchart-auth'}})}catch(e){}
 const syncData=()=>{const d={};for(const k of SYNC_KEYS)if(S[k]!==undefined)d[k]=S[k];return d};
@@ -1691,6 +1726,186 @@ $('#trow').onclick=e=>{const b=e.target.closest('[data-act]');if(!b)return;const
   if(a==='mag')cycleMag();else if(a==='undo')doUndo();
   else if(a==='clr'){if(!tArm){tArm=1;setTimeout(()=>{tArm=0;renderTools()},3000)}else{tArm=0;if(drawings.length){pushUndo();drawings=[];persist();select(null)}closeMenus()}}
   renderTools()};
+
+/* ---------- News: Großereignisse, starke Reaktionen, Wale ---------- */
+/* k: Kategorie (zoll, geo, fed, krypto, halving), c: nur bei Krypto anzeigen, d: nur Datum bekannt (Uhrzeit ungenau) */
+const EVENTS=[
+ {t:'2017-12-18T00:00Z',d:1,c:1,k:'krypto',n:'CME startet Bitcoin-Futures',x:'Erstmals können große Institutionen an der CME auf Bitcoin wetten – kurz danach endet der Bullrun von 2017.'},
+ {t:'2020-03-12T00:00Z',d:1,k:'fed',n:'Corona-Crash („Black Thursday“)',x:'Panik an allen Märkten wegen der Pandemie – Bitcoin halbiert sich an zwei Tagen.'},
+ {t:'2020-05-11T19:23Z',c:1,k:'halving',n:'3. Bitcoin-Halving',x:'Die Belohnung pro Block sinkt von 12,5 auf 6,25 BTC.'},
+ {t:'2020-08-11T00:00Z',d:1,c:1,k:'krypto',n:'MicroStrategy kauft erstmals Bitcoin',x:'Erste große börsennotierte Firma mit Bitcoin als Reserve – Startschuss für Firmenkäufe.'},
+ {t:'2021-02-08T00:00Z',d:1,c:1,k:'krypto',n:'Tesla kauft Bitcoin für 1,5 Mrd. $',x:'Tesla meldet den Kauf in einer Börsenmitteilung, BTC springt deutlich nach oben.'},
+ {t:'2021-04-14T00:00Z',d:1,c:1,k:'krypto',n:'Coinbase geht an die Börse',x:'Börsengang der größten US-Kryptobörse – markiert fast exakt das Hoch im Frühjahr 2021.'},
+ {t:'2021-05-12T22:06Z',c:1,k:'krypto',n:'Tesla stoppt Bitcoin-Zahlungen',x:'Elon Musk begründet den Stopp mit dem Energieverbrauch – starker Abverkauf.'},
+ {t:'2021-05-19T00:00Z',d:1,c:1,k:'krypto',n:'China-Verbot & Crash',x:'China verschärft das Vorgehen gegen Krypto, BTC fällt an einem Tag zeitweise um rund 30 %.'},
+ {t:'2021-09-07T00:00Z',d:1,c:1,k:'krypto',n:'El Salvador: Bitcoin wird Zahlungsmittel',x:'Erstes Land mit Bitcoin als gesetzlichem Zahlungsmittel – „Sell the news“ am selben Tag.'},
+ {t:'2021-10-19T00:00Z',d:1,c:1,k:'krypto',n:'Erster Bitcoin-Futures-ETF in den USA',x:'Start des ProShares-ETF BITO – kurz darauf neues Allzeithoch.'},
+ {t:'2022-02-24T03:00Z',k:'geo',n:'Russland greift die Ukraine an',x:'Kriegsbeginn – Risiko-Assets brechen zuerst ein und erholen sich innerhalb weniger Tage.'},
+ {t:'2022-05-09T00:00Z',d:1,c:1,k:'krypto',n:'Terra/UST-Kollaps',x:'Der Stablecoin UST verliert seine Bindung an den Dollar, LUNA fällt auf fast null.'},
+ {t:'2022-06-13T00:00Z',d:1,c:1,k:'krypto',n:'Celsius stoppt Auszahlungen',x:'Der Krypto-Verleiher friert Kundengelder ein – Auftakt zur Pleitewelle 2022.'},
+ {t:'2022-11-08T00:00Z',d:1,c:1,k:'krypto',n:'FTX-Kollaps',x:'Die Börse FTX stoppt Auszahlungen und geht wenige Tage später pleite – Tief des Bärenmarkts.'},
+ {t:'2023-03-10T00:00Z',d:1,k:'fed',n:'Pleite der Silicon Valley Bank',x:'Bankenkrise in den USA, USDC verliert kurzzeitig die Dollarbindung – danach starke BTC-Rally.'},
+ {t:'2023-06-15T00:00Z',d:1,c:1,k:'krypto',n:'BlackRock beantragt Bitcoin-Spot-ETF',x:'Der weltgrößte Vermögensverwalter steigt ein – Wende in der Stimmung.'},
+ {t:'2024-01-10T21:00Z',c:1,k:'krypto',n:'Spot-Bitcoin-ETFs genehmigt',x:'Die SEC lässt die ersten Spot-ETFs in den USA zu, Handelsstart am nächsten Tag.'},
+ {t:'2024-04-20T00:09Z',c:1,k:'halving',n:'4. Bitcoin-Halving',x:'Die Belohnung pro Block sinkt von 6,25 auf 3,125 BTC.'},
+ {t:'2024-08-05T00:00Z',d:1,k:'fed',n:'Yen-Carry-Trade-Crash',x:'Zinserhöhung in Japan löst weltweite Panikverkäufe aus.'},
+ {t:'2024-11-06T00:00Z',d:1,k:'fed',n:'Trump gewinnt die US-Wahl',x:'Markt setzt auf eine kryptofreundliche Regierung – Start einer großen Rally.'},
+ {t:'2024-12-05T00:00Z',d:1,c:1,k:'krypto',n:'Bitcoin erstmals über 100.000 $',x:'Psychologische Marke geknackt.'},
+ {t:'2025-01-20T00:00Z',d:1,k:'fed',n:'Trumps Amtsantritt',x:'Beginn der zweiten Amtszeit.'},
+ {t:'2025-02-01T00:00Z',d:1,k:'zoll',n:'Zölle gegen Kanada, Mexiko und China',x:'Trump verhängt neue Zölle – am folgenden Montag starker Abverkauf.'},
+ {t:'2025-02-21T00:00Z',d:1,c:1,k:'krypto',n:'Bybit-Hack (1,5 Mrd. $)',x:'Größter Krypto-Hack der Geschichte bei der Börse Bybit.'},
+ {t:'2025-03-06T00:00Z',d:1,c:1,k:'krypto',n:'Strategische Bitcoin-Reserve der USA',x:'Trump unterzeichnet die Verordnung – ohne neue Käufe, der Markt reagiert enttäuscht.'},
+ {t:'2025-04-02T20:00Z',k:'zoll',n:'„Liberation Day“-Zölle',x:'Trump kündigt Zölle gegen fast alle Handelspartner an – weltweiter Crash in den Folgetagen.'},
+ {t:'2025-04-09T17:18Z',k:'zoll',n:'Trump setzt Zölle für 90 Tage aus',x:'Die Pause löst eine der stärksten Erholungsrallys des Jahres aus.'},
+ {t:'2025-06-22T00:00Z',d:1,k:'geo',n:'USA greifen iranische Atomanlagen an',x:'Eskalation im Nahen Osten am Wochenende – Bitcoin fällt kurzzeitig.'},
+ {t:'2025-07-18T00:00Z',d:1,c:1,k:'krypto',n:'GENIUS Act unterzeichnet',x:'Erstes großes US-Gesetz für Stablecoins.'},
+ {t:'2025-10-06T00:00Z',d:1,c:1,k:'krypto',n:'Allzeithoch bei rund 126.000 $',x:'Höchster Bitcoin-Kurs bisher.'},
+ {t:'2025-10-10T21:00Z',k:'zoll',n:'Trump droht China mit 100 % Zöllen',x:'Größte Liquidationswelle der Kryptogeschichte innerhalb weniger Stunden.'},
+ {t:'2026-01-30T00:00Z',d:1,k:'fed',n:'Kevin Warsh als Fed-Chef nominiert',x:'Der Markt erwartet eine strengere Geldpolitik – Bitcoin fällt unter 83.000 $.'},
+ {t:'2026-02-05T00:00Z',d:1,c:1,k:'krypto',n:'Crash bis 60.000 $',x:'Liquidationskaskade mit rund 2,7 Mrd. $ an einem Tag, Angst-Index auf Rekordtief.'},
+ {t:'2026-02-28T00:00Z',d:1,k:'geo',n:'USA und Israel greifen den Iran an',x:'Beginn des Iran-Kriegs – Bitcoin fällt innerhalb einer Stunde um mehrere Prozent.'},
+ {t:'2026-04-07T00:00Z',d:1,k:'geo',n:'Waffenruhe zwischen USA und Iran',x:'Trump verkündet eine zweiwöchige Waffenruhe – Bitcoin steigt um rund 5 %.'},
+ {t:'2026-06-01T00:00Z',d:1,c:1,k:'krypto',n:'Strategy verkauft erstmals seit 2022 Bitcoin',x:'Kleiner Verkauf, aber großes Signal: Ende des „Never sell“-Mantras.'},
+ {t:'2026-09-16T18:00Z',k:'fed',n:'Fed erhöht erstmals seit 2023 die Zinsen',x:'Zinserhöhung um 0,25 Prozentpunkte auf 3,75–4 % – war erwartet, Bitcoin reagierte kaum.'}
+].map(e=>({...e,ts:Date.parse(e.t)/1000}));
+const EVK={zoll:{g:'%',c:'#c9822b',n:'Zölle & Handel'},geo:{g:'!',c:'#d0464a',n:'Krieg & Geopolitik'},fed:{g:'$',c:'#3b7dd8',n:'Zinsen & Makro'},krypto:{g:'₿',c:'#e0912f',n:'Krypto'},halving:{g:'½',c:'#7a63c7',n:'Halving'}};
+const NEWS_DEF={ev:true,rx:true,wh:true,whMin:2e6,lqMin:5e5};
+const NS=()=>{S.news={...NEWS_DEF,...(S.news||{})};return S.news};
+const isCrypto=()=>isBn(cur.src);
+const baseAsset=()=>cur.sym.replace(/(USDT|USDC|FDUSD|EUR|BTC|ETH|BNB|TRY)$/,'')||cur.sym;
+/* Schwelle für „starke“ Kerzen je Zeitrahmen (Körper in %) */
+const RXT={'1m':.6,'5m':1,'15m':1.5,'1h':2.5,'4h':4,'1D':8,'1W':16};
+let rxCache={k:'',list:[]},newsHit=[],evOpen=null;
+function reactions(){
+  const ck=key()+IV.k+bars.length+':'+(bars[0]&&bars[0].time);if(rxCache.k===ck)return rxCache.list;
+  const thr=(RXT[IV.k]||3)/(cur.src==='td'?2:1),vs=bars.map(b=>b.v||0).filter(v=>v>0).sort((a,b)=>a-b),vm=vs.length?vs[vs.length>>1]:0;
+  const raw=[];
+  for(let i=0;i<bars.length-1;i++){const b=bars[i],r=(b.close-b.open)/b.open*100,vx=vm?(b.v||0)/vm:0;
+    if(Math.abs(r)>=thr||(Math.abs(r)>=thr*.6&&vx>=3))raw.push({i,r,vx,score:Math.abs(r)/thr+(vx>=3?.5:0)})}
+  /* nur die stärkste Kerze je Cluster (±6 Kerzen) */
+  raw.sort((a,b)=>b.score-a.score);const keep=[];
+  for(const x of raw){if(keep.some(k=>Math.abs(k.i-x.i)<=6))continue;keep.push(x);if(keep.length>=60)break}
+  rxCache={k:ck,list:keep.map(x=>({...x,time:bars[x.i].time}))};return rxCache.list;
+}
+const evList=()=>EVENTS.filter(e=>!e.c||isCrypto());
+function bolt(x,y,r){ctx.fillStyle='#fff';ctx.beginPath();const k=r/7;ctx.moveTo(x+1*k,y-5*k);ctx.lineTo(x-3.2*k,y+.8*k);ctx.lineTo(x-.2*k,y+.8*k);ctx.lineTo(x-1*k,y+5*k);ctx.lineTo(x+3.2*k,y-.8*k);ctx.lineTo(x+.2*k,y-.8*k);ctx.closePath();ctx.fill()}
+function badge(x,y,r,fill,glyph,ring){ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fillStyle=fill;ctx.fill();ctx.lineWidth=1.5;ctx.strokeStyle=T.bg;ctx.stroke();
+  if(ring){ctx.beginPath();ctx.arc(x,y,r+3,0,7);ctx.strokeStyle=fill;ctx.lineWidth=1.5;ctx.stroke()}
+  if(glyph==='bolt'){bolt(x,y,r);return}
+  ctx.fillStyle='#fff';ctx.font=`700 ${Math.round(r*1.15)}px ${FONT}`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(glyph,x,y+.5);ctx.textAlign='left'}
+function paintNews(P){
+  newsHit=[];if(!bars.length)return;const N=NS(),big=lastPT==='touch'?1.25:1;
+  /* Wale & Liquidationen als Blasen */
+  if(N.wh&&isCrypto()){const lst=whaleList();for(const w of lst){const x=xOf(w.t),y=yOf(w.p);if(x==null||y==null||x<0||x>P.w)continue;
+    const r=Math.min(16,4+Math.sqrt(w.usd/1e6)*2.6);ctx.beginPath();ctx.arc(x,y,r,0,7);
+    if(w.liq){ctx.strokeStyle=w.side==='buy'?T.up:T.dn;ctx.lineWidth=2;ctx.setLineDash([3,2]);ctx.stroke();ctx.setLineDash([])}
+    else{ctx.fillStyle=hexA(w.side==='buy'?T.up:T.dn,.28);ctx.fill();ctx.strokeStyle=w.side==='buy'?T.up:T.dn;ctx.lineWidth=1;ctx.stroke()}
+    newsHit.push({x,y,r:Math.max(r,9*big),kind:'wh',o:w})}}
+  /* Starke Reaktionen */
+  if(N.rx){for(const rx of reactions()){const b=bars[rx.i];if(!b||b.time!==rx.time)continue;const x=xOf(b.time);if(x==null||x<-10||x>P.w+10)continue;
+    const up=rx.r>=0,y=up?yOf(b.high)-14*big:yOf(b.low)+14*big;if(y==null)continue;
+    badge(x,y,8*big,up?T.up:T.dn,'bolt',evOpen&&evOpen.kind==='rx'&&evOpen.o===rx);newsHit.push({x,y,r:11*big,kind:'rx',o:rx})}}
+  /* Großereignisse unten am Chart */
+  if(N.ev){const y0=P.h-14*big,st=[];for(const e of evList()){const x=xOf(e.ts);if(x==null||x<-10||x>P.w+10)continue;
+    let lv=0;while(st.some(q=>q.lv===lv&&Math.abs(q.x-x)<17*big))lv++;st.push({x,lv});const y=y0-lv*19*big;
+    const sel=evOpen&&evOpen.kind==='ev'&&evOpen.o===e;
+    if(sel){ctx.setLineDash([3,4]);ctx.strokeStyle=EVK[e.k].c;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(crisp(x),0);ctx.lineTo(crisp(x),y-10);ctx.stroke();ctx.setLineDash([])}
+    badge(x,y,8*big,EVK[e.k].c,EVK[e.k].g,sel);newsHit.push({x,y,r:12*big,kind:'ev',o:e})}}
+}
+function newsAt(x,y){let best=null,bd=1e9;for(const h of newsHit){const d=Math.hypot(h.x-x,h.y-y);if(d<=h.r&&d<bd){bd=d;best=h}}return best}
+
+/* ---------- Detail-Karte ---------- */
+const fmtUsd=v=>v>=1e9?fmtN(v/1e9,2)+' Mrd. $':v>=1e6?fmtN(v/1e6,1)+' Mio. $':fmtN(v/1e3,0)+' Tsd. $';
+function moveAfter(ts,sec){if(!bars.length)return null;let i=Math.round(idxOfTime(ts));if(i<0||i>=bars.length)return null;
+  const j=Math.min(bars.length-1,i+Math.max(1,Math.round(sec/IV.s)));const a=bars[i].open,b=bars[j].close;return (b-a)/a*100}
+function openNews(h){
+  evOpen=h;const el=$('#evPop'),o=h.o;let html='';
+  if(h.kind==='ev'){const K=EVK[o.k],mv=moveAfter(o.ts,86400);
+    html=`<div class="evh"><i style="background:${K.c}">${esc(K.g)}</i><div><b>${esc(o.n)}</b><span>${esc(dfmt(o.ts,o.d?{day:'2-digit',month:'long',year:'numeric'}:{day:'2-digit',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'}))} · ${esc(K.n)}</span></div></div>
+      <p>${esc(o.x)}</p>${mv!=null?`<p class="evm">${esc(cur.sym)} in den 24 Std. danach: <b class="${mv>=0?'up':'dn'}">${esc(fmtPct(mv))}</b></p>`:''}`;
+    html+=newsBlock(o.ts-86400*(o.d?0:0.5),o.ts+86400*(o.d?1.5:1));
+  }else if(h.kind==='rx'){const b=bars[o.i],ev=evList().find(e=>Math.abs(e.ts-o.time)<=Math.max(36*3600,IV.s*2));
+    html=`<div class="evh"><i style="background:${o.r>=0?T.up:T.dn}"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M13.5 2.5L5.5 13.5h5.5l-1.5 8 8.5-11.5h-5.5z" fill="#fff"/></svg></i><div><b>Starke Bewegung: ${esc(fmtPct(o.r))}</b><span>${esc(dfmt(o.time,IV.s>=86400?{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}:{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}))} · ${esc(IV.k)}-Kerze</span></div></div>
+      <p>${o.vx?`Volumen ${esc(fmtN(o.vx,1))}× so hoch wie üblich.`:''}${ev?` Passendes Ereignis: <b>${esc(ev.n)}</b> – ${esc(ev.x)}`:''}</p>`;
+    html+=newsBlock(o.time-Math.max(12*3600,IV.s*3),o.time+IV.s+6*3600);
+  }else{html=`<div class="evh"><i style="background:${o.side==='buy'?T.up:T.dn}">${o.liq?'L':'W'}</i><div><b>${o.liq?(o.side==='buy'?'Short':'Long')+'-Liquidation':(o.side==='buy'?'Großer Kauf':'Großer Verkauf')}: ${esc(fmtUsd(o.usd))}</b><span>${esc(dfmt(o.t,{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'}))} · ${esc(o.liq?'Binance Futures':'Binance, Market-Order')}</span></div></div>
+      <p>${esc(fmtN(o.q,o.q<10?3:1))} ${esc(baseAsset())} zu ${esc(fmtP(o.p))}.${o.liq?' Eine gehebelte Position wurde zwangsweise geschlossen.':' Eine einzelne große Order, die sofort ausgeführt wurde.'}</p>`}
+  el.innerHTML=`<button class="evx" type="button" aria-label="Schließen"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>${html}`;
+  el.hidden=false;placePop(h);
+}
+function placePop(h){const el=$('#evPop');if(mob.matches){el.style.left=el.style.top='';return}
+  const P=pane(),w=el.offsetWidth,hh=el.offsetHeight;let x=h.x+16,y=h.y-hh/2;if(x+w>P.w-6)x=h.x-16-w;
+  el.style.left=Math.max(8,x)+'px';el.style.top=Math.max(8,Math.min(y,P.h-hh-8))+'px'}
+function closeNews(){evOpen=null;$('#evPop').hidden=true}
+$('#evPop').addEventListener('click',e=>{if(e.target.closest('.evx'))closeNews()});
+/* Schlagzeilen aus dem kostenlosen News-Archiv (cryptocurrency.cv) */
+const NEWS_API='https://cryptocurrency.cv/api',newsCache=new Map();
+function newsBlock(from,to){
+  if(!isCrypto())return '<p class="evn">Für Aktien gibt es leider keine kostenlose Schlagzeilen-Quelle.</p>';
+  const id='nb'+Math.random().toString(36).slice(2,8);
+  setTimeout(()=>loadHeadlines(id,from,to),0);
+  return `<div class="evl" id="${id}"><div class="mh">Schlagzeilen aus dem Zeitraum</div><p class="evn">Lade…</p></div>`;
+}
+const day=s=>new Date(s*1000).toISOString().slice(0,10);
+async function fetchNews(from,to){
+  const now=Date.now()/1000,live=now-to<3*3600,b=baseAsset(),ck=b+':'+(live?'live:'+Math.floor(now/120):day(from)+'_'+day(to));
+  if(newsCache.has(ck))return newsCache.get(ck);
+  const url=live?(b==='BTC'?`${NEWS_API}/bitcoin?limit=30`:`${NEWS_API}/search?q=${encodeURIComponent(b)}&limit=30`)
+    :`${NEWS_API}/archive?format=simple&ticker=${encodeURIComponent(b)}&start_date=${day(from)}&end_date=${day(to)}&limit=100`;
+  const p=fetch(url).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(j=>(j.articles||j.data||[]).map(a=>({
+    title:a.title||'',link:a.link||a.url||'',src:a.source||a.source_name||'',ts:Date.parse(a.pubDate||a.pub_date||a.published_at||a.first_seen||'')/1000})).filter(a=>a.title&&isFinite(a.ts)));
+  newsCache.set(ck,p);p.catch(()=>newsCache.delete(ck));return p;
+}
+async function loadHeadlines(id,from,to){
+  const box=document.getElementById(id);if(!box)return;
+  try{let a=await fetchNews(from,to);const mid=(from+to)/2;
+    const inWin=a.filter(x=>x.ts>=from-3600&&x.ts<=to+3600);a=(inWin.length?inWin:a).sort((p,q)=>Math.abs(p.ts-mid)-Math.abs(q.ts-mid));
+    const seen=new Set();a=a.filter(x=>{const k=x.title.toLowerCase().slice(0,60);if(seen.has(k))return false;seen.add(k);return true}).slice(0,6);
+    if(!document.getElementById(id))return;
+    box.innerHTML='<div class="mh">Schlagzeilen aus dem Zeitraum</div>'+(a.length?a.map(x=>`<a class="evi" href="${esc(/^https?:/.test(x.link)?x.link:'#')}" target="_blank" rel="noopener"><b>${esc(x.title)}</b><span>${esc(x.src)} · ${esc(dfmt(x.ts,{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}))}</span></a>`).join('')
+      :'<p class="evn">Keine Schlagzeilen für diesen Zeitraum gefunden.</p>')+'<p class="evsrc">Quelle: cryptocurrency.cv (kostenlos)</p>';
+    if(evOpen)placePop(evOpen);
+  }catch(e){if(document.getElementById(id))box.innerHTML='<div class="mh">Schlagzeilen aus dem Zeitraum</div><p class="evn">Der News-Dienst ist gerade nicht erreichbar.</p>'}
+}
+/* Live: starke Bewegung der aktuellen Kerze → Hinweis */
+let rxLiveKey='';
+function newsLive(b){const N=NS();if(!N.rx||!bars.length)return;const thr=(RXT[IV.k]||3)/(cur.src==='td'?2:1),r=(b.close-b.open)/b.open*100;
+  const k=key()+IV.k+b.time;if(Math.abs(r)<thr||rxLiveKey===k)return;rxLiveKey=k;
+  toastAct(`${cur.sym} ${fmtPct(r)} in dieser ${IV.k}-Kerze`,'Warum?',()=>{const P=pane(),x=xOf(b.time),y=yOf(r>=0?b.high:b.low);
+    openNews({x:x==null?P.w-40:x,y:y==null?P.h/2:y,kind:'rx',o:{i:bars.length-1,r,vx:0,time:b.time}})})}
+function toastAct(t,btn,fn){const el=$('#toast');el.innerHTML=`${esc(t)} <button type="button">${esc(btn)}</button>`;el.classList.add('show','act');
+  el.querySelector('button').onclick=()=>{el.classList.remove('show','act');fn()};clearTimeout(toast.t);toast.t=setTimeout(()=>el.classList.remove('show','act'),9000)}
+
+/* ---------- Wale: große Market-Orders & Liquidationen (Binance, kostenlos) ---------- */
+const WKEY='fibchart.whales';let WH={};try{WH=JSON.parse(localStorage.getItem(WKEY))||{}}catch(e){}
+let whSock=[],whFor='',whSaveT=0;
+const whaleList=()=>WH[baseAsset()]||[];
+function addWhale(w){const b=baseAsset(),l=WH[b]||(WH[b]=[]);l.push(w);const cut=Date.now()/1000-30*86400;
+  WH[b]=l.filter(x=>x.t>=cut).slice(-600);clearTimeout(whSaveT);whSaveT=setTimeout(()=>{try{localStorage.setItem(WKEY,JSON.stringify(WH))}catch(e){}},1500)}
+function whaleWS(){
+  const N=NS(),want=N.wh&&isCrypto()?baseAsset():'';if(want===whFor&&whSock.every(s=>s.readyState<2))return;
+  whSock.forEach(s=>{s.onclose=null;try{s.close()}catch(e){}});whSock=[];whFor=want;if(!want)return;
+  const fut=want.toLowerCase()+'usdt',spot=(cur.src==='binance'?cur.sym:want+'USDT').toLowerCase(),usdq=/(USDT|USDC|FDUSD)$/.test(cur.sym)||cur.src==='bnf';
+  const open=(url,fn)=>{const s=new WebSocket(url);s.onmessage=e=>{try{fn(JSON.parse(e.data))}catch(x){}};s.onclose=()=>{if(whFor===want)setTimeout(()=>{if(whFor===want){whFor='';whaleWS()}},5000)};whSock.push(s)};
+  /* Große Market-Orders (aggregierte Trades) */
+  open(`${cur.src==='bnf'?'wss://fstream.binance.com':'wss://stream.binance.com:9443'}/ws/${cur.src==='bnf'?fut:spot}@aggTrade`,m=>{
+    const p=+m.p,q=+m.q;let usd=p*q;if(!usdq){const u=Q['binance:'+want+'USDT'];usd=u&&u.p?q*u.p:usd}
+    if(usd>=N.whMin)addWhale({t:m.T/1000,p,q,usd,side:m.m?'sell':'buy'})});
+  /* Liquidationen auf Binance Futures */
+  open(`wss://fstream.binance.com/ws/${fut}@forceOrder`,m=>{const o=m.o;if(!o)return;const q=+o.z||+o.q,p=+o.ap||+o.p,usd=p*q;
+    if(usd>=N.lqMin&&cur.src!=='td'){const ratio=cur.src==='binance'&&!usdq&&bars.length?bars[bars.length-1].close/(Q['binance:'+want+'USDT']||{}).p:1;
+      addWhale({t:o.T/1000,p:isFinite(ratio)&&ratio>0?p*ratio:p,q,usd,side:o.S==='BUY'?'buy':'sell',liq:1})}});
+}
+setInterval(whaleWS,1500);
+
+/* ---------- Menü „Ereignisse“ ---------- */
+function renderNewsMenu(){const N=NS();$('#nwEv').checked=N.ev;$('#nwRx').checked=N.rx;$('#nwWh').checked=N.wh;$('#nwWhMin').value=String(N.whMin);$('#nwLqMin').value=String(N.lqMin);
+  $('#newsBtn').classList.toggle('on',N.ev||N.rx||N.wh)}
+$('#newsBtn').onclick=e=>{e.stopPropagation();renderNewsMenu();openMenu('#newsBtn','#newsMenu')};
+$('#newsMenu').addEventListener('change',e=>{const N=NS(),t=e.target;
+  if(t.id==='nwEv')N.ev=t.checked;else if(t.id==='nwRx')N.rx=t.checked;else if(t.id==='nwWh')N.wh=t.checked;else if(t.id==='nwWhMin')N.whMin=+t.value;else if(t.id==='nwLqMin')N.lqMin=+t.value;
+  save();renderNewsMenu();if(evOpen)closeNews();whFor='';whaleWS()});
+renderNewsMenu();
 
 /* ---------- Linien-Gruppe & Flyouts (wie TradingView) ---------- */
 const KEY_OF={trend:'T',hline:'H',channel:'C'};
