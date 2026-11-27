@@ -1948,9 +1948,12 @@ function whaleWS(){
   const fut=want.toLowerCase()+'usdt',spot=(cur.src==='binance'?cur.sym:want+'USDT').toLowerCase(),usdq=/(USDT|USDC|FDUSD)$/.test(cur.sym)||cur.src==='bnf';
   const open=(url,fn)=>{const s=new WebSocket(url);s.onmessage=e=>{try{fn(JSON.parse(e.data))}catch(x){}};s.onclose=()=>{if(whFor===want)setTimeout(()=>{if(whFor===want){whFor='';whaleWS()}},5000)};whSock.push(s)};
   /* Große Market-Orders (aggregierte Trades) */
+  /* Eine Order über mehrere Preisstufen kommt als mehrere aggTrades mit gleicher Zeit und Seite – zusammenfassen */
+  let g=null,gT=0;const flush=()=>{clearTimeout(gT);if(g){let usd=g.usd;if(!usdq){const u=Q['binance:'+want+'USDT'];usd=u&&u.p?g.q*u.p:usd}
+    if(usd>=N.whMin)addWhale({t:g.T/1000,p:g.pq/g.q,q:g.q,usd,side:g.m?'sell':'buy'})}g=null};
   open(`${cur.src==='bnf'?'wss://fstream.binance.com':'wss://stream.binance.com:9443'}/ws/${cur.src==='bnf'?fut:spot}@aggTrade`,m=>{
-    const p=+m.p,q=+m.q;let usd=p*q;if(!usdq){const u=Q['binance:'+want+'USDT'];usd=u&&u.p?q*u.p:usd}
-    if(usd>=N.whMin)addWhale({t:m.T/1000,p,q,usd,side:m.m?'sell':'buy'})});
+    const p=+m.p,q=+m.q;if(g&&(g.T!==m.T||g.m!==m.m))flush();if(!g)g={T:m.T,m:m.m,q:0,pq:0,usd:0};
+    g.q+=q;g.pq+=p*q;g.usd+=p*q;clearTimeout(gT);gT=setTimeout(flush,400)});
   /* Liquidationen auf Binance Futures */
   open(`wss://fstream.binance.com/ws/${fut}@forceOrder`,m=>{const o=m.o;if(!o)return;const q=+o.z||+o.q,p=+o.ap||+o.p,usd=p*q;
     if(usd>=N.lqMin&&cur.src!=='td'){const ratio=cur.src==='binance'&&!usdq&&bars.length?bars[bars.length-1].close/(Q['binance:'+want+'USDT']||{}).p:1;

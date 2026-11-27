@@ -42,17 +42,24 @@ for (const [sym, min] of Object.entries(PAIRS)) {
       fromId = a.length ? a[0].a : null;
       if (fromId == null) continue;
     } else fromId += 1;
+    // Eine Market-Order, die mehrere Preisstufen durchläuft, kommt als mehrere aggTrades mit gleicher Zeit und Seite –
+    // die fassen wir wieder zu einer Order zusammen.
+    let g = null;
+    const flush = () => { if (g && g.usd >= min) { list.push({ t: Math.round(g.T / 1000), p: +(g.usd / g.q).toFixed(2), q: +g.q.toFixed(4), usd: Math.round(g.usd), side: g.m ? 'sell' : 'buy' }); added++; } g = null; };
     while (!done && page < MAX_PAGES) {
       const a = await get(`/api/v3/aggTrades?symbol=${sym}&fromId=${fromId}&limit=1000`);
       page++;
       for (const t of a) {
-        const p = +t.p, q = +t.q, usd = p * q;
-        if (usd >= min) { list.push({ t: Math.round(t.T / 1000), p, q: +q.toFixed(4), usd: Math.round(usd), side: t.m ? 'sell' : 'buy' }); added++; }
+        const p = +t.p, q = +t.q;
+        if (g && (g.T !== t.T || g.m !== t.m)) flush();
+        if (!g) g = { T: t.T, m: t.m, q: 0, usd: 0 };
+        g.q += q; g.usd += p * q;
         state.lastId[sym] = t.a;
       }
       if (a.length < 1000) done = true; else fromId = a[a.length - 1].a + 1;
       await sleep(120);
     }
+    flush();
     console.log(`${sym}: ${page} Seiten gelesen, Stand ${state.lastId[sym]}`);
   } catch (e) { console.log(`${sym}: Fehler ${e.message}`); }
   const cut = now / 1000 - KEEP_DAYS * 86400;
