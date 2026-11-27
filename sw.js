@@ -1,6 +1,6 @@
 // Minimaler Service Worker: speichert nur die App-Hülle (HTML, Skripte, Schrift, Icons).
 // Kursdaten und Supabase laufen immer live übers Netz.
-const CACHE='fibchart-v4';
+const CACHE='fibchart-v5';
 const SHELL=['./','index.html','vendor/lightweight-charts.js','vendor/supabase.js','fonts/inter.woff2','icons/icon-192.png','manifest.webmanifest'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting()});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});

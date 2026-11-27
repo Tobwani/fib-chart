@@ -67,7 +67,9 @@ if (now - (state.calAt || 0) > 6 * 3600e3) {
   try {
     const r = await fetch('https://nfs.faireconomy.media/ff_calendar_thisweek.json', { headers: { 'User-Agent': 'fib-chart-collector' } });
     if (!r.ok) throw new Error('HTTP ' + r.status);
-    const a = await r.json();
+    let a = await r.json();
+    // nächste Woche, falls angeboten
+    try { const r2 = await fetch('https://nfs.faireconomy.media/ff_calendar_nextweek.json', { headers: { 'User-Agent': 'fib-chart-collector' } }); if (r2.ok) a = a.concat(await r2.json()); } catch {}
     const ev = a.filter(e => e.country === 'USD' && e.impact === 'High')
       .map(e => ({ t: Math.round(Date.parse(e.date) / 1000), n: e.title, f: e.forecast || '', pv: e.previous || '' }))
       .filter(e => isFinite(e.t));
